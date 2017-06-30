@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserDAO {
+	
 	public List<HashMap> doselect(String sql){
 		List<HashMap> userlist = new ArrayList<HashMap>();
 		try{
@@ -77,10 +78,10 @@ public class UserDAO {
 		//ud.doInsert(sql, hm);
 		System.out.println(sql);
 		
-		sql = "insert into class_info(";
-		hm = new HashMap<String, String>();
-		hm.put("class_name", "미술반");
-		ud.doInsert(sql, hm);
+//		sql = "insert into class_info(";
+//		hm = new HashMap<String, String>();
+//		hm.put("class_name", "미술반");
+//		ud.doInsert(sql, hm);
 //		while(it.hasNext()){
 //			String key = (String) it.next();
 //			System.out.println(key);
