@@ -11,6 +11,7 @@ public class DBConn2 {
 		if (con == null) {
 			Class.forName("org.mariadb.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1/test01", "root", "gp02fu3369!");
+			con.setAutoCommit(false);
 		}
 		return con;
 	}
