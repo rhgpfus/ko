@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Common.DBConn2;
 
@@ -17,6 +19,7 @@ public class BoardDAO {
 	public void setConnection() throws SQLException, ClassNotFoundException{
 		con = DBConn2.getCon();
 	}
+	
 	
 	public boolean insertBoard(){
 		try{
@@ -67,11 +70,11 @@ public class BoardDAO {
 	public boolean deleteBoard(){
 		try{
 			String sql = "delete from board where writer='3'";
-			Statement st = con.createStatement();
+			Statement st = con.createStatement();//createStatement 아무것도없는창 써주자마자 실행됨.
 			int result = st.executeUpdate(sql);
 			if(result==1){
 				con.commit();
-				st.close();
+				st.close();     //쿼리 창을 꺼준다.
 				st = null;
 				return true;
 			}
@@ -87,47 +90,43 @@ public class BoardDAO {
 		return false;
 	}
 	
-	public List<HashMap> selectBoard(){
-		try{
-			List<HashMap> list = new ArrayList<HashMap>();
-			String sql = "select * from board";
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			ResultSetMetaData rsmd = rs.getMetaData();
-			while(rs.next()){
-				HashMap hm = new HashMap();
-				int colCount = rsmd.getColumnCount();
-				for(int i=1;i<=colCount;i++){
-					String colName = rsmd.getColumnName(i);
-					hm.put(colName, rs.getString(colName));
-				}
-				list.add(hm);
-			}
-			DBConn2.closeCon();
-			for(int i=1;i<list.size();i++){
-				System.out.println(list.get(i));
-			}
-			return list;
-		}catch(Exception e){
-			e.printStackTrace();
+	public List<Map> selectBoard()throws SQLException{
+		String sql = "select b_num, title, content, ui_num from board";
+		PreparedStatement ps = con.prepareStatement(sql);
+		
+		ResultSet rs = ps.executeQuery();
+		ArrayList boardList = new ArrayList();
+		while(rs.next()){
+			HashMap hm = new HashMap();
+			hm.put("b_num", rs.getString("b_num"));
+			hm.put("title", rs.getString("title"));
+			hm.put("content", rs.getString("content"));
+			hm.put("ui_num", rs.getString("ui_num"));
+			boardList.add(hm);
 		}
-		return null;
-		 
+		rs.close();
+		rs = null;
+		ps.close();
+		ps = null;
+		return boardList;
 	}
 	
 	public static void main(String[] args){
 		BoardDAO bdao = new BoardDAO();
-		
 		try {
 			bdao.setConnection();
-		} catch (Exception e) {
+			List<Map> boardList = bdao.selectBoard();
+			CommentDAO dao = new CommentDAO();
+			for(Map m : boardList){
+				System.out.println(m);
+				List<Map> commentList = dao.selectComment(Integer.parseInt((String)m.get("board_num")));
+				for(Map m2 : commentList){
+					System.out.println(m2);
+				}
+			}
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		bdao.insertBoard();
-		bdao.updateBoard();
-		bdao.deleteBoard();
-		bdao.selectBoard();
-		
-		}
+	}
 	
 }

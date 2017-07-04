@@ -32,15 +32,15 @@ public class UserDAO2 {
 			String sql = "insert into user_info(id,pwd,name,age,class_num)"
 					+ "values(?,?,?,?,?);";
 			
-			PreparedStatement prestmt = con.prepareStatement(sql);//칼럼정보를 판에다 적는다.
+			PreparedStatement ps = con.prepareStatement(sql);//칼럼정보를 판에다 적는다.
 			
-			prestmt.setString(1, hm.get("id"));
-			prestmt.setString(2, hm.get("pwd"));
-			prestmt.setString(3, hm.get("name"));
-			prestmt.setString(4, hm.get("age"));
-			prestmt.setString(5, hm.get("class_num"));
+			ps.setString(1, hm.get("id"));
+			ps.setString(2, hm.get("pwd"));
+			ps.setString(3, hm.get("name"));
+			ps.setString(4, hm.get("age"));
+			ps.setString(5, hm.get("class_num"));
 			
-			ResultSet rs = prestmt.executeQuery(); //ResultSet 컬럼정보를 읽는다. 실행.
+			ResultSet rs = ps.executeQuery(); //ResultSet 컬럼정보를 읽는다. 실행.
 			ResultSetMetaData rsmd = rs.getMetaData();//getMetaData컬럼정보를 주는아이.
 			while (rs.next()){
 				int colCount = rsmd.getColumnCount(); //5 = 컬럼개수(num,id,pwd,name,age)
