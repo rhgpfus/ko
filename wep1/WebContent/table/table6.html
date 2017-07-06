@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script>
+function getTable(){
+	var tr = parseInt(document.getElementById("tr").value);
+	var td = parseInt(document.getElementById("td").value);
+	
+	var tableStr = "<table border='1'";
+	tableStr += "<tr>" + "<td colspan='" + td "' align='center'>" + "예이~테이블~" + "</td>"
+	for(var i=tr;i<=td;i++){
+		tableStr += "<tr>"
+		for(var j=tr;j<=td;j++){
+			tableStr += "<td>" + i + "X" + j + "=" + (i*j) + "</td>";
+		}
+	}
+		tableStr += "</tr>"
+	tableStr += "</tr>"
+	tableStr += "</table>"
+
+	document.write(tableStr);
+}
+
+
+</script>
+<body>
+<form>
+	<table border="1">
+		<tr>
+			<td>행 :<input type="text" name="tr" id="tr"/></td>
+			<td>렬 :<input type="text" name="td" id="td"/></td>
+		</tr>
+		<tr>
+			<td colspan="4" align="center"><input type="button" value="만들기" onclick="getTable()"/></td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>
