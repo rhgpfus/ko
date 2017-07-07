@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script>
+function makeSureForm(){
+	var nameObj = document.getElementById("id");
+	var passObj = document.getElementById("pass");
+	var colorObj = document.getElementById("s_color");
+	
+	alert(nameObj.value);
+	alert(passObj.value);
+}
+function checkEmail(obj){
+	if(obj.value.indexOf("@")!=-1){
+		var str = obj.value.substring(0, obj.value.indexOf("@"));
+		obj.value = str + "@";
+	}
+}
+function checkEmail2(){
+	alert("꺄꺄꺄꺄꺄꺄꺄꺄ㅑ햐햐햐걓갸갸ㅑㅑ갸 안쳐지지이!?!?!?!?캬햐햐햐햑");
+}
+function checkColor(obj){
+	if(obj.callCnt==undefined){
+		obj.callCnt = 3;
+	}
+	if(obj.value!="#ff0000"){
+		obj.callCnt++;
+		if(obj.callCnt%4==0){
+			alert("고똥은 빨강이 좋아아앙!!!!! 빨강져아앙아아아아아!!!!!!!!");
+		}
+	  	if(obj.callCnt%4==1){
+			alert("빨강 다이스키데스네^_^*!");
+		}
+	  	if(obj.callCnt%4==2){
+	  		alert("빨강이 조타고오옹!!!!!!!!!!!");
+	  	}
+	  	if(obj.callCnt%4==3){
+	  		alert("red!red!red!red!red!red!red!red!red!red!red!red!red!red!red!red!");
+	  	}
+	 }
+	obj.value = obj.oldValue;
+	document.getElementById("s_color").value = "#ff0000";
+	return false;
+		
+}
+function setOldValue(obj){
+	obj.oldValue = obj.value;
+}
+
+</script>
+<body>
+<form id="test_form" method="get" action="/test.user">
+	아이디 : <input type="text" id="id" name="id"/><br/>
+	비밀번호 : <input type="password" id="pass" name="pass"/><br/>
+	좋아하는색깔 : <input type="color" id="s_color" name="s_color" onfocus="setOldValue(this)"onchange="checkColor(this)"/><br/>
+	이메일 : <input type="email" id="t_email" name="t_email" onkeyup="checkEmail(this)"/>
+	<input type="button" value="인증해봐" onclick="checkEmail2()"/><br/>
+	<input type="button" value="확인" onclick="makeSureForm()"/>
+	<input type="submit" value="전송"/>
+	<input type="reset" name="r_btn" value="리셋"/>
+	
+</form>
+</body>
+</html>
