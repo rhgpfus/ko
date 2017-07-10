@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시판 입력</title>
+</head>
+<script>
+function checkValue(){
+	var titleObj = document.getElementById("title");
+	if(titleObj.value.trim()==""){
+		alert("제목입력안해?!");
+		titleObj.focus();
+		return false;
+	}
+	var contentObj = document.getElementById("content");
+	if(contentObj.value.trim()==""){
+		alert("내용입력안해?!");
+		contentObj.focus();
+		return false;
+	}
+	var userNumObj = document.getElementById("user_num");
+	var userNum = parseInt(userNumObj.value); //문자열을 숫자로 바꿔준다.
+	if(isNaN(userNum)){ //NaN이 문자이면 안되니 NaN이니? 라고 묻는다.
+		alert("문자는 안되! 숫자를 입력해!");
+		userNumObj.focus();
+		return false;
+	}
+	return true;
+	
+}
+</script>
+<body>
+<form method="get" action="*.board" onsubmit="return checkValue()">
+	<table border=1 bordercolor="blue" cellspacing="0" cellpadding="0" width="400" align="center">
+		<tr>
+	 		<td colspan="2"><p align="center"> = 게시판 입력 = </p></td>
+	 	</tr>
+		<tr align="center">
+			<td>제목 : </td>
+			<td><input type="text" id="title" name="title"/></td>
+		</tr>
+		<tr align="center">
+			<td>내용 : </td>
+			<td><textarea id="content" name="content"></textarea></td>
+		</tr>
+		<tr align="center">
+			<td>글쓴이 : </td>
+			<td><input type="text" id="user_num" name="user_num"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><input type="submit" value="글쓰기"/></td>
+		</tr>
+	</table>
+<input type="hidden" name="commend" id="commend" value="INSERT"/>
+</form>
+</body>
+</html>

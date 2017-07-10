@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script>
+function checkValue(){
+	var contentObj = document.getElementById("content");
+	if(contentObj.value==""){
+		alert("내용을 입력하세요!");
+		contentObj.focus();
+		return false;
+	}
+	var userNumObj = document.getElementById("user_num");
+	var userNum = parseInt(userNumObj.value);
+	if(isNaN(userNum)){
+		alert("유저에 있는 숫자를 입력해!");
+		userNumObj.focus();
+		return false;
+	}
+	var boardNumObj = document.getElementById("board_num");
+	var boardNum = parseInt(boardNumObj.value);
+	if(isNaN(boardNum)){
+		alert("보드에 있는 숫자를 입력해!");
+		boardNumObj.focus();
+		return false;
+	}
+	return true;
+}
+</script>
+<body>
+<form method="get" action="*.comment" onsubmit="return checkValue()">
+	<table border="1" bordercolor="green" cellspacing="0" cellpadding="0" width="400" align="center">
+		<tr>
+			<td colspan="2"><p align="center"> = 댓글 = </p></td>
+		</tr>
+		<tr align="center">
+			<td> 내용 : </td>
+			<td><textarea id="content" name="content"></textarea></td>
+		</tr>
+		<tr align="center">
+			<td> user_num : </td>
+			<td><input type="text" id="user_num" name="user_num"/></td>
+		</tr>
+		<tr align="center">
+			<td> board_num : </td>
+			<td><input type="text" id="board_num" name="board_num"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><input type="submit" value="글쓰기"/></td>
+		</tr>
+	</table>
+<input type="hidden" id="command" name="command" value="INSERT"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시판 입력</title>
+</head>
+<script>
+function checkValue(){
+	var titleObj = document.getElementById("title");
+	if(titleObj.value.trim()=="")){ //NaN이 문자이면 안되니 NaN이니? 라고 묻는다.
+		alert("제목을 입력해!");
+		titleObj.focus();
+		return false;
+	}
+	return true;
+	
+}
+</script>
+<body>
+<form method="get" action="*.board" onsubmit="return checkValue()">
+	<table border=1 cellspacing="0" cellpadding="0" width="400" align="center">
+		<tr>
+	 		<td colspan="2"><p align="center"> = 게시판 검색 = </p></td>
+	 	</tr>
+		<tr align="center">
+			<td>검색할 제목 : </td>
+			<td><input type="text" id="title" name="title"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><input type="submit" value="검색"/></td>
+		</tr>
+	</table>
+<input type="hidden"name="commend"id="commend"value="SELECT"/>
+</form>
+</body>
+</html>
