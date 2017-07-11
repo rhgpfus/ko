@@ -11,7 +11,7 @@ import java.util.Map;
 
 import com.test.common.DBConn;
 
-public class BoardService {
+public class CalService {
 	
 	public boolean insertBoard(HashMap<String,String> hm){
 		Connection con = null;

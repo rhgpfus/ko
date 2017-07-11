@@ -6,7 +6,7 @@
 </head>
 <script>
 function checkValue(){
-\var userNumObj = document.getElementById("user_num");
+\var userNumObj = document.getElementById("num");
 	var userNum = parseInt(userNumObj.value); //문자열을 숫자로 바꿔준다.
 	if(isNaN(userNum)){ //NaN이 문자이면 안되니 NaN이니? 라고 묻는다.
 		alert("문자는 안되! 숫자를 입력해!");
@@ -25,13 +25,13 @@ function checkValue(){
 	 	</tr>
 		<tr align="center">
 			<td>삭제할 유저 번호 : </td>
-			<td><input type="text" id="user_num" name="user_num"/></td>
+			<td><input type="text" id="num" name="num"/></td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center"><input type="submit" value="삭제"/></td>
 		</tr>
 	</table>
-<input type="hidden"name="commend"id="commend"value="DELETE"/>
+<input type="hidden"name="command"id="command"value="DELETE"/>
 </form>
 </body>
 </html>

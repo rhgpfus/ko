@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>계산기</title>
+</head>
+<script>
+function checkValue(){
+	var num1Obj = document.getElementById("num1");
+	var num1 = parseInt(num1Obj.value);
+	if(num1Obj.value.trim()=="" || isNaN(num1)){
+		alert("숫자가 아니잖아!!");
+		num1Obj.focus();
+		return false;
+	}
+	var opObj = document.getElementById("op");
+	if(opObj.value.trim()==""){
+		alert("값이 이상해!");
+		opObj.focus();
+		return false;
+	}
+	var num2Obj = document.getElementById("num2");
+	var num2 = parseInt(num2Obj.value);
+	if(num2Obj.value.trim()=="" || isNaN(num2)){
+		alert("숫자가 아니잖아!!");
+		num2Obj.focus();
+		return false;
+	}
+	return true;
+}
+</script>
+<body>
+<form action="/*.cal" onsubmit="return checkValue()">
+<table border="1" bordercolor="green" cellspacing="0" cellpadding="0" width="300" align="center">
+	<tr>
+	 	<td colspan="2"><p align="center"> = 계산기 = </p></td>
+	 </tr>
+	<tr align="center">
+		<td>num1</td>
+		<td><input type="text" name="num1" id="num1"/></td>
+	</tr>
+	<tr align="center">
+		<td>연산자</td>
+		<td><select id="op" name="op">
+			<option value="">선택</option>
+			<option value="+">+</option>
+			<option value="-">-</option>
+			<option value="*">*</option>
+			<option value="/">/</option>
+		</select></td>
+	</tr>
+	<tr align="center">
+		<td>num2</td>
+		<td><input type="text" name="num2" id="num2"/></td>
+	</tr>
+	
+	<tr>
+		<td colspan="3" align="center"><input type="submit" value="계산!"/></td>
+	</tr>
+</table>
+</form>
+</body>
+</html>
