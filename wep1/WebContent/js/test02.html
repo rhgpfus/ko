@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script>
+function searchFather(eObj){
+	var eNum = eObj.form.elements.length;
+	
+	var result = "";
+	for(var i=0;i<eNum;i++){
+		var num= eObj.form.elements[i];
+		if(1%2==0 && i!=eNum-1){
+			try{
+				if(isNaN(Number(num.value)()){
+					if(isNaN(strNum)){
+						alert("숫자는 안되!");
+						num.value = "";
+						num.focus();
+						return false;
+					}
+				}
+			}catch(e){
+				alert(e);
+				throw e;
+			}
+		}
+		if(i%2==1 && i!=eNum-1){
+			var intNum = new Number(num.value);
+			try{
+				if(isNaN(intNum)){
+					alert("숫자가아냐!");
+					num.value = "";
+					num.focus();
+					return false;
+				}
+			}catch(e){
+				alert(e);
+				throw e;
+			}	
+		}
+		if(num.value!="전송버튼"){
+			result += num.value;
+		}
+		if(i==eNum-1){
+			num.value = result;
+		}
+		
+	}
+}
+</script>
+<body>
+<form onsubmit="checkForm()" action="test02.html"> 
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="button" value="전송버튼" onclick="searchFather(this)"/>
+</form>
+</body>
+</html>
