@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script>
+function box(){
+	var mbObj = document.getElementById("makeBox");
+	if(isNaN(mbObj.value)){
+		alert("숫자가 아냐!");
+		mbObj.focus();
+		mbObj.value = "";
+		return false;
+	}
+	var divObj = document.getElementById("dv");
+	var result = "";
+	for(var i=0;i<mbObj.value;i++){
+		result += "<input type='text' name='txt'/>";
+	}
+	divObj.innerHTML = result;
+}
+function search(){
+	var tObj = document.getElementsByName("txt");
+	var sbObj = document.getElementById("searchBox").value;
+	//생성된 박스에 잇는 값을 찾아낸다.
+	for(var i=0;i<tObj.length;i++){
+		var num = tObj[i].value;
+		if(num.indexOf(sbObj)!=-1){
+			tObj[i].value = "찾앗다!";
+		}
+		tObj[i].focus();
+		
+	}
+}
+</script>
+<body>
+<input type="text" id="makeBox" name="makeBox"/>
+<input type="button" value="생성" onclick="box()"/>
+<div id="dv"></div>
+<input type="text" id="searchBox" name="searchBox"/>
+<input type="button" value="값찾기" onclick="search()"/>
+</body>
+</html>
