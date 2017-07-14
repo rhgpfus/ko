@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script>
+function makeInput(){
+	var cntObj = document.getElementById("cnt");
+	var cnt = new Number(cntObj.value);
+	if(isNaN(cnt)){
+		alert("숫자가아냐!");
+		cntObj.value = "";
+		cntObj.focus();
+		return false;
+	}
+	var divObj = document.getElementById("r_div");
+	var resutl = "";
+	for(var i=0;i<cnt;i++){
+		resutl += "<input type='text' name='txt'/>";
+	}
+	divObj.innerHTML = resutl;
+	
+}
+</script>
+<body>
+생성개수 : <input type="text" id="cnt"/><input type="button" value="생성" onclick="makeInput()"/>
+<div id="r_div"></div>
+</body>
+</html>

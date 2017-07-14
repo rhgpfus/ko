@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>타이틀</title>
+</head>
+<script>
+function fclick(){
+	var inputStr = "<input type='text' id='ip1' name='ip' onclick='initBody()'/>";
+	var bodyObj = document.getElementById("bd1");
+	bodyObj.innerHTML = inputStr;
+}
+function initBody(){
+	var bodyObj = document.getElementById("bd1");
+}
+</script>
+<body id="bd1">
+<input type="button" value="버튼" onclick="fclick()"/>
+</body>
+</html>
