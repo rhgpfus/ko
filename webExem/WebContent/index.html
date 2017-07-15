@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>안녕하세용!!!</title>
+</head>
+<script>
+//window.alert(1);   //얼랏의 주인 window가잇다! 근데 생략되어있다! 알림창처럼 띄어진다.
+//document.write("착한 고혜련님"); //sop처럼 html화면에 출력해준다.
+function f_click(){
+	var vObj = document.getElementById("id").value;
+	var num = parseInt(vObj);
+	num++;
+	document.getElementById("id").value = num;
+}
+function f_click2(){
+	var vObj = document.getElementById("id").value;
+	var num = parseInt(vObj);
+	num--;
+	if(num<0){
+		return false;
+	}
+	document.getElementById("id").value = num;
+}
+
+</script>	
+<body>
+아이디 : <input type="text" name="id" id="id" value="0"/><br/>
+<input type="button" value="샘~~~~" onclick="f_click()"/>
+<input type="button" value="~~~~샘" onclick="f_click2()"/>
+</body>
+	
+</html>
