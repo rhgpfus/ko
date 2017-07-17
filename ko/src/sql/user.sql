@@ -79,14 +79,13 @@ foreign key (board_num) references board(board_num),
 foreign key (user_num) references user_info(user_num)
 );
 
-
 #유저 생성 명령어
 create user 'test'@'localhost' identified by 'test';
 
 # test라는 유저 삭제
 drop user test;
 
-# 유저명@'%' 외부 접속이 가능한 유저 생성
+# 유저명@'%' 외부 접속이 가능한 유저 생성      /*아이디에 ''을 써줘도 되고 안써줘도되는데 써주는게 좋다!*/
 # identified by '비밀번호'
 create user test@'%' identified by 'test';
 
@@ -122,3 +121,68 @@ flush privileges;
 grant all privileges on iot_test to test@'%';
 #iot_Test 데이터 베이스의 모든 권한을 주었던 test@'%'부터 모든 권한을 박탈하겠다는 명령어
 revoke all on iot_test from test@'%';
+SELECT SUM(data_length+index_length)/1024/1024 used_MB FROM information_schema.tables
+where table_schema='iot_test';
+
+
+select * from information_schema.tables
+where table_schema='iot_test'
+;
+create table board2(
+board_num int(3) not null AUTO_INCREMENT primary key,
+board_title varchar(30) not null,
+user_num int(3) ,
+foreign key (user_num) references user_info2(user_num)
+)
+;
+show variables where Variable_name in('version','log','general_log');
+
+select @@general_log;
+select @@version;
+
+set global general_log=1;
+
+select * from mysql.user;
+
+ 1. user_info 테이블 생성
+    1) user_num int(3) 널 허용 불가, 자동 증가, 기본키
+    2) user_id varchar(30) 널 허용 불가, 유니크 인덱스
+    3) user_name varchar(30) 널 허용 불가
+ 2. board 테이블 생성
+    1) board_num int(3) 널 허용 불가, 자동 증가, 기본키
+    2) board_title varchar(30) 널 허용 불가
+    3) user_num int(3) 널 허용 불가, user_info테이블의 user_num과 외래키로 연결
+1.모든사람의 age의 합과 평균을 구하는 sql문을 작성해주세요.
+2.Id와 pwd가 다른 사람을 검색하는 sql문을 작성해주세요.
+3.Class_num이 0보다 크고 2보다는 작은 사람을 검색하는 sql문을 작성해주세요.
+4.Id가 ‘b’로 시작하는 사람을 검색하는 sql문을 작성해주세요
+5.Age가 30보다 크거나 같고 40보다 작거나 같은 사람을 삭제하는 sql문을 작성해주세요.
+6. Class_num이 1 이거나 2면서 나이가 30보다 크거나 같은 사람을 검색하는 sql문을 작성해주세요
+DELIMITER $$
+DROP PROCEDURE P_INSERT_USER_INFO;
+CREATE PROCEDURE p_insert_user_info
+(IN loop_cnt int(1),OUT RESULT INT)
+/* 반복횟수를 파라메터로 받는다*/
+BEGIN 
+	DECLARE i INT DEFAULT 0;
+
+	/* 만약 SQL에러라면 ROLLBACK 처리한다. */
+	DECLARE exit handler for SQLEXCEPTION
+	  BEGIN
+		ROLLBACK;        
+		SET RESULT = -1;  
+	END;
+	/* 트랜젝션 시작 */
+	START TRANSACTION;
+	WHILE (i <= loop_cnt) DO
+        INSERT INTO user_info(user_id, user_pwd, user_name, class_num, age)
+        VALUES (concat('test',i), concat('test', i), concat('test', i), i,i);
+        SET i = i + 1;
+    END WHILE;
+	/* 커밋 */
+	COMMIT;
+	SET RESULT = 0;
+END$$
+DELIMITER ;
+
+
