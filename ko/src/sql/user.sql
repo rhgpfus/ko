@@ -67,18 +67,6 @@ foreign key (board_num) references board(board_num),
 foreign key (user_num) references user_info(user_num)
 );
 
-
-#외래키를 2개 설정해야 할 경우의 예제
-create table comment_info(
-ci_num int(5) AUTO_INCREMENT primary key,
-content text,
-reg_Date datetime not null,
-board_num int(7) not null,
-user_num int(5) not null,
-foreign key (board_num) references board(board_num),
-foreign key (user_num) references user_info(user_num)
-);
-
 #유저 생성 명령어
 create user 'test'@'localhost' identified by 'test';
 
@@ -121,9 +109,9 @@ flush privileges;
 grant all privileges on iot_test to test@'%';
 #iot_Test 데이터 베이스의 모든 권한을 주었던 test@'%'부터 모든 권한을 박탈하겠다는 명령어
 revoke all on iot_test from test@'%';
+
 SELECT SUM(data_length+index_length)/1024/1024 used_MB FROM information_schema.tables
 where table_schema='iot_test';
-
 
 select * from information_schema.tables
 where table_schema='iot_test'
@@ -131,7 +119,7 @@ where table_schema='iot_test'
 create table board2(
 board_num int(3) not null AUTO_INCREMENT primary key,
 board_title varchar(30) not null,
-user_num int(3) ,
+user_num int(3),
 foreign key (user_num) references user_info2(user_num)
 )
 ;
@@ -140,7 +128,7 @@ show variables where Variable_name in('version','log','general_log');
 select @@general_log;
 select @@version;
 
-set global general_log=1;
+set global general_log=1; /* 활성화 */
 
 select * from mysql.user;
 
