@@ -5,28 +5,56 @@
 <title>Insert title here</title>
 </head>
 <script>
-function checkLogin(){
-	var id1 = document.getElementById("id");
-	var pwd1 = document.getElementById("pwd");
-	if(id1.value==""){
-		alert("아이디를 입력하라구!!");
-		id1.focus();
-		return false;
+function getHttpXmlObj(){
+	if(window.XMLHttpRequest){
+		return new XMLHttpRequest();
+	}else if(window.ActiveXObject){
+		return new ActiveXObjext("Microsoft.XMLHTTP");
 	}
-	if(pwd1.value==""){
-		alert("비번을 입력하라구!!");
-		pwd1.focus();
-		return false;
+	alert("해당 브라우져가 Ajax를 지원하지 않습니다.");
+}
+function doLogin(){
+	var idStr = "userid,userpwd";
+	var params = "?";
+	var ids = idStr.split(",");
+	
+	for(var i=0;i<ids.length;i++){
+		var elObj = document.getElementById(ids[i]);
+		if(elObj.value==""){
+			alert("입력을해야지~?");
+			elObj.focus();
+			return;
+		}
+		params += ids[i]+ "=" + elObj.value + "&";
 	}
-	return true;
+	var xhr = getHttpXmlObj();
+	var method = "get";
+	var url = ".user";
+	var aSync = true;
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState==4){
+			if(xhr.status==200){
+				var result = decodeURIComponent(xhr.responseText);
+				alert(xhr.responseText);
+			}else{
+				document.getElementById("bd_div").innerHTML += xhr.responseText;
+			}
+		}
+	}
+	xhr.open(method,url+params,aSync);
+	if(method=="post"){
+		xhr.setRequestHeader("Content-type","application/x-www-form-urlencode");
+	}
+	xhr.send();
 }
 </script>
 
 <body>
-<form method="get" action="test.user" onsubmit="return checkLogin()">
-아이디 : <input type="text" name="id" id="id"/>
-비밀번호 : <input type="password" name="pwd" id="pwd"/>
-<input type="submit" value="로그인"/>
-</form>
+<div width="100%" id="bd_div">
+아이디 : <input type="text" name="userid" id="userid"/>
+비밀번호 : <input type="password" name="userpwd" id="userpwd"/>
+<input type="button" value="로그인" onclick="doLogin()"/>
+</div>
+<input type="hidden"name="command"id="command"value="LOGIN"/>
 </body>
 </html>

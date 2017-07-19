@@ -33,13 +33,18 @@ public class UserServlet extends HttpServlet{
 		//UserService로 us 레퍼런스 변수를 생성.
 		
 		if(command.equals("SIGNIN")){
-			String id = req.getParameter("id");
-			String pwd = req.getParameter("pwd");
-			String name = req.getParameter("name");
-			String class_num = req.getParameter("class_num");
+			String id = req.getParameter("userid");
+			String pwd = req.getParameter("userpwd");
+			String name = req.getParameter("username");
 			String age = req.getParameter("age");
+			String address = req.getParameter("address");
+			String hp1 = req.getParameter("hp1");
+			String hp2 = req.getParameter("hp2");
+			String hp3 = req.getParameter("hp3");
 			
-			System.out.println(id + "," + pwd + "," + name + "," + class_num + ", " + age);
+		
+			System.out.println(id + "," + pwd + "," + name + "," + address + age);
+			System.out.println("전화번호:" + hp1 + "-" + hp2 + "-" + hp3);
 			//위에서 받은 String 변수를 출력해줌(Tomcat콘솔창에)
 			
 			HashMap hm = new HashMap(); //해쉬맵 생성.
@@ -47,13 +52,16 @@ public class UserServlet extends HttpServlet{
 			hm.put("id", id);  //html화면에서 던진 id값을 "id"라는 키로 해쉬맵에 저장.나머지도 똑같다.
 			hm.put("pwd", pwd);
 			hm.put("name", name);
-			hm.put("class_num", class_num);
 			hm.put("age", age);
+			hm.put("address", address);
+			hm.put("hp1", hp1);
+			hm.put("hp2", hp2);
+			hm.put("hp3", hp3);
 			
 			if(us.insertUser(hm)){
-				doProcess(resq,"저장잘됫군멍ㅁ낭");
+				doProcess(resq,"저장잘어!");
 			}else{
-				doProcess(resq,"똑바로입력행ㄹ!!!");
+				doProcess(resq,"똑바로입력행!!!");
 			}
 		}else if(command.equals("DELETE")){
 			String user_num = req.getParameter("user_num");
@@ -84,7 +92,7 @@ public class UserServlet extends HttpServlet{
 				doProcess(resq,"안된거같은디;;");
 			}
 		}else if(command.equals("SELECT")){
-			String name = req.getParameter("name");
+			String name = req.getParameter("username");
 			System.out.println("검색 : " + name);
 			
 			HashMap hm = new HashMap();
@@ -98,7 +106,16 @@ public class UserServlet extends HttpServlet{
 				result += m.toString();
 			}
 			doProcess(resq, result);
-		}		
+		}else if(command.equals("LOGIN")){
+			String id = req.getParameter("userid");
+			System.out.println("아이디 : " + id);
+			
+			HashMap hm = new HashMap();
+			hm.put("id", id);
+			String userList = us.loginUser(hm);
+			
+			doProcess(resq, userList);
+		}
 	}
 		
 	

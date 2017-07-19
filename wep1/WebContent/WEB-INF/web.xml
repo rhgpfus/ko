@@ -13,8 +13,7 @@
     <servlet-name>UserServlet</servlet-name>
     <url-pattern>*.user</url-pattern>
   </servlet-mapping>
-  
-  <servlet>
+ <servlet>
     <servlet-name>BoardServlet</servlet-name>
     <servlet-class>com.test.servlet.BoardServlet</servlet-class>
   </servlet>

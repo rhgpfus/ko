@@ -4,39 +4,108 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script>
+function getHttpXmlObj(){
+    //해당브라우져가 익스플로러 7.0 이상이거나 파이어폭스, 크롭 등일경우
+	if(window.XMLHttpRequest){
+  		return new XMLHttpRequest();
+ 	}else if(window.ActiveXObject){
+  		//해당 브라우져가 익스플로러 6.0 이하일경우
+  		return new ActiveXObject("Microsoft.XMLHTTP");
+ 	}
+	//해당 브라우져가 듣보잡일경우.. 어떤 브라우져 인진 나도 모름.
+	alert("해당 브라우져가  Ajax를 지원하지 않습니다.");
+}
+function doSignin(){
+	var idStr = "userid,userpwd,username,address,hp1,hp2,hp3,age,command";
+	var lengthStr = "30,100,100,200,4,4,4,3,100";
+	var typeStr = "s,s,s,s,n,n,n,n,s";
+	var params = "?";
+	var ids = idStr.split(",");
+	var lengths = lengthStr.split(",");
+	var types = typeStr.split(",");
+	for(var i=0;i<ids.length;i++){
+		var maxLength = new Number(lengths[i]);
+		var typeVali = types[i];
+		var elObj = document.getElementById(ids[i]);
+		if(!isNaN(maxLength)){
+			if(elObj.value.length>maxLength){
+				alert("제한길이를 넘엇습니다.");
+				elObj.value = "";
+				elObj.focus();
+				return;
+			}
+		}
+		if(typeVali=="n"){
+			if(isNaN(new Number(elObj.value))){
+				alert("숫자만 입력해주세요");
+				elObj.value="";
+				elObj.focus();
+				return;
+			}
+		}
+		params += ids[i]+ "=" + elObj.value + "&";
+	}
+	var xhr = getHttpXmlObj();
+	var method = "get";
+	var url = ".user";
+	var aSync = true;
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState==4){
+			if(xhr.status==200){
+				var result = decodeURIComponent(xhr.responseText);
+				alert(result);
+			}else{
+				document.getElementById("bd_div").innerHTML += xhr.responseText;
+			}
+		}
+	}
+	xhr.open(method,url+params,aSync);
+	if(method=="post"){
+		xhr.setRequestHeader("Content-type","application/x-www-form-urlencode");
+	}
+	xhr.send();
+}
+</script>
 <body>
-<form action="/test_web/sign.user">
-<div width="100%">
+
+<div width="100%" id="bd_div">
 <table border="1" cellspacing="0" cellpadding="0" width="400" align="center">
 <tr>
-	<td colspan="2"><p align="center"> = 회원 가입 = </p></td>
+	<td colspan="4"><p align="center"> = 회원 가입 = </p></td>
 </tr>
 <tr align="center">
-	<td>id</td>
-	<td><input type="text" name="id" id="id"/></td>
+	<td>아이디</td>
+	<td colspan="3"><input type="text" name="userid" id="userid"/></td>
 </tr>
 <tr align="center">
-	<td>pwd</td>
-	<td><input type="text" name="pwd" id="pwd"/></td>
+	<td>비밀번호</td>
+	<td colspan="3"><input type="password" name="userpwd" id="userpwd" maxlength="100"/></td>
 </tr>
 <tr align="center">
-	<td>name</td>
-	<td><input type="text" name="name" id="name"/></td>
+	<td>이름</td>
+	<td colspan="3"><input type="text" name="username" id="username" maxlength="100"/></td>
 </tr>
 <tr align="center">
-	<td>class num</td>
-	<td><input type="text" name="class_num" id="class_num"/></td>
+	<td>주소</td>
+	<td colspan="3"><input type="text" name="address" id="address" size="35"/></td>
 </tr>
 <tr align="center">
-	<td>age</td>
-	<td><input type="text" name="age" id="age"/></td>
+	<td>폰번호</td>
+	<td><input type="text" name="hp1" id="hp1" size="4" maxlength="4"/>-
+	<input type="text" name="hp2" id="hp2" size="4" maxlength="4"/>-
+	<input type="text" name="hp3" id="hp3" size="4" maxlength="4"/></td>
+</tr>
+<tr align="center">
+	<td>나이</td>
+	<td colspan="3"><input type="text" name="age" id="age" size="3" maxlength="3"/></td>
 </tr>
 <tr>
-	<td colspan="2" align="center"><input type="submit" value="회원가입"/></td>
+	<td colspan="4" align="center"><input type="button" value="회원가입" onclick="doSignin()"/></td>
 </tr>
 </table>
 </div>
 <input type="hidden"name="command"id="command"value="SIGNIN"/>
-</form>
+
 </body>
 </html>

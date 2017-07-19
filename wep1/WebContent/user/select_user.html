@@ -4,9 +4,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script>
+function click(){
+	var name = document.getElementById("username");
+}
+</script>
 <body>
 <form action="/test_web/sign.user">
-이름 : <input type="text" name="name" id="name"/> <input type="submit" value="검색"/>
+이름 : <input type="text" name="username" id="username"/> <input type="submit" value="검색"/>
 <input type="hidden" name="command" value="SELECT"/>
 </form>
 </body>
