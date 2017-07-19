@@ -9,22 +9,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import service.DBConn;
+import com.test.common.DBConn;
 
-public class CalService {
+public class CommentService {
 	
-	public boolean insertBoard(HashMap<String,String> hm){
+	public boolean insertComment(HashMap<String,String> hm){
 		Connection con = null;
 		PreparedStatement ps = null;
 		try{
 			con = DBConn.getCon();
-			String sql = "insert into board(title,content,writer,reg_date)";
-			sql += "values(?,?,?,now())";
+			String sql = "insert into comment_info(content,ui_num,b_num,reg_datetime)";
+			sql += " values(?,?,?,now())";
 			
 			ps = con.prepareStatement(sql);
-			ps.setString(1, hm.get("title"));
-			ps.setString(2, hm.get("content"));
-			ps.setString(3, hm.get("num"));  //여기 user_num은 BoardServlet에서 hm에 넣은 user_num의 값을 가져와서 넣는것!
+			ps.setString(1, hm.get("content"));
+			ps.setString(2, hm.get("user_num"));
+			ps.setString(3, hm.get("board_num"));  //여기 user_num은 BoardServlet에서 hm에 넣은 user_num의 값을 가져와서 넣는것!
 			int result = ps.executeUpdate();
 			if(result==1){
 				con.commit();
@@ -57,7 +57,7 @@ public class CalService {
 			sql += " where num=?";
 			
 			ps = con.prepareStatement(sql);
-			ps.setString(1, hm.get("num"));
+			ps.setString(1, hm.get("user_num"));
 			int result = ps.executeUpdate();
 			if(result==1){
 				con.commit();
@@ -91,7 +91,7 @@ public class CalService {
 			ps = con.prepareStatement(sql);
 			ps.setString(1,hm.get("title"));
 			ps.setString(2,hm.get("content"));
-			ps.setString(3,hm.get("num"));
+			ps.setString(3,hm.get("user_num"));
 			int result = ps.executeUpdate();
 			if(result==1){
 				con.commit();
@@ -121,12 +121,12 @@ public class CalService {
 		ResultSet rs = null;
 		try{
 			String sql = "select num,title,content,writer,reg_date from board";
-			if(!hm.get("title").equals("")){
+			if(hm.get("title")!=null){
 				sql += " where title like ?";
 			}
 			con = DBConn.getCon();
 			ps = con.prepareStatement(sql);
-			if(!hm.get("title").equals("")){
+			if(hm.get("title")!=null){
 				ps.setString(1,hm.get("title"));
 			}
 			rs = ps.executeQuery();

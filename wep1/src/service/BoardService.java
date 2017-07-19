@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import service.DBConn;
+import com.test.common.DBConn;
 
-public class CalService {
+public class BoardService {
 	
 	public boolean insertBoard(HashMap<String,String> hm){
 		Connection con = null;
