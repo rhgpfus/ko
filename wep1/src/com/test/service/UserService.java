@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import service.DBConn;
+import com.test.common.DBConn;
 
 public class UserService {
 	
@@ -78,16 +78,16 @@ public class UserService {
 		return false;
 	}
 	
-	public boolean deleteUser(HashMap<String,String> hm){
+	public boolean deleteUser(HashMap<String,String> hm2){
 		Connection con = null;
 		PreparedStatement ps = null;
 		try{
 			con = DBConn.getCon();
 			String sql = "delete from user_info ";
-			sql += "where num=?";
+			sql += "where usernum=?";
 			
 			ps = con.prepareStatement(sql);
-			ps.setString(1, hm.get("user_num"));
+			ps.setString(1, hm2.get("usernum"));
 			int result = ps.executeUpdate();
 			if(result==1){
 				con.commit();
@@ -153,7 +153,7 @@ public class UserService {
 		try{
 			String sql = "select usernum,userid,userpwd,username,age,address,hp1,hp2,hp3 from user_info";
 			if(hm.get("name")!=null){
-				sql += " where usename like ?";
+				sql += " where username like ?";
 			}
 			con = DBConn.getCon();
 			ps = con.prepareStatement(sql);
@@ -161,19 +161,19 @@ public class UserService {
 				ps.setString(1,hm.get("name"));
 			}
 			rs = ps.executeQuery();
-			ArrayList userList = new ArrayList();
+			List userList = new ArrayList();
 			while(rs.next()){
-					HashMap hm2 = new HashMap();
-					hm2.put("num", rs.getString("usernum"));
-					hm2.put("id", rs.getString("userid"));
-					hm2.put("pwd", rs.getString("userpwd"));
-					hm2.put("name", rs.getString("username"));
-					hm2.put("age", rs.getString("age"));
-					hm2.put("address", rs.getString("address"));
-					hm2.put("hp1", rs.getString("hp1"));
-					hm2.put("hp2", rs.getString("hp2"));
-					hm2.put("hp3", rs.getString("hp3"));
-					userList.add(hm2);
+					HashMap hm1 = new HashMap();
+					hm1.put("usernum", rs.getString("usernum"));
+					hm1.put("userid", rs.getString("userid"));
+					hm1.put("userpwd", rs.getString("userpwd"));
+					hm1.put("username", rs.getString("username"));
+					hm1.put("age", rs.getString("age"));
+					hm1.put("address", rs.getString("address"));
+					hm1.put("hp1", rs.getString("hp1"));
+					hm1.put("hp2", rs.getString("hp2"));
+					hm1.put("hp3", rs.getString("hp3"));
+					userList.add(hm1);
 				}
 				con.commit();
 				return userList;

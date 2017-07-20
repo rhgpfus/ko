@@ -1,4 +1,4 @@
-package com.test.servlet;
+package com.test.servlet; 
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.UserService;
+import com.test.service.UserService;
+
 
 public class UserServlet extends HttpServlet{
 	
@@ -62,12 +63,12 @@ public class UserServlet extends HttpServlet{
 			}else{
 				doProcess(resq,"똑바로입력행!!!");
 			}
-		}else if(command.equals("DELETE")){
-			String user_num = req.getParameter("user_num");
-			System.out.println("삭제할 번호 : " + user_num);
+		}else if(command.equals("삭제")){
+			String usernum = req.getParameter("usernum");
+			System.out.println("삭제할 번호 : " + usernum);
 			
 			HashMap hm = new HashMap();
-			hm.put("user_num", user_num);
+			hm.put("usernum", usernum);
 			if(us.deleteUser(hm)){
 				doProcess(resq,"딜리트꺼~잘지워졋군");
 			}else{
@@ -92,19 +93,20 @@ public class UserServlet extends HttpServlet{
 			}
 		}else if(command.equals("SELECT")){
 			String name = req.getParameter("username");
-			System.out.println("검색 : " + name);
-			
+			System.out.println("이름 : " + name);
 			HashMap hm = new HashMap();
-			hm.put("name", name);
-			if(name!=null && !name.equals("")){
-				hm.put("name", "%"+name+"%");
+			if(name != null && !name.equals("")){
+				hm.put("name", "%" + name + "%");
 			}
 			List<Map> userList = us.selectUser(hm);
-			String result = "";
+			String result = "번호{/}이름{/}아이디{/}나이{+}";
+			result += "dis{/}en{/}en{/}en{+}";
 			for(Map m : userList){        //userList사이즈만큼 m에 넌다.
-				result += m.get();
+				result += m.get("usernum") + "{/}" + m.get("username") + "{/}" + m.get("userid") + "{/}" + m.get("age") + "{+}";
 			}
+			result = result.substring(0, result.length()-3);
 			doProcess(resq, result);
+			
 		}else if(command.equals("LOGIN")){
 			String id = req.getParameter("userid");
 			String pwd = req.getParameter("userpwd");

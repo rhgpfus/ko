@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.BoardService;
+import com.test.service.BoardService;
+
 
 public class BoardServlet extends HttpServlet{
 	
