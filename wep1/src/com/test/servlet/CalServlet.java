@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.test.service.BoardService;
+import service.BoardService;
 
 public class CalServlet extends HttpServlet{
 	
