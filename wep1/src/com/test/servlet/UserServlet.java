@@ -27,7 +27,6 @@ public class UserServlet extends HttpServlet{
 		if(command==null){
 			return;
 		}
-		
 		UserService us = new UserService();
 		//UserService에 있는 insertUser(HashMap hm)이라는 함수를 호출하기 위해
 		//UserService로 us 레퍼런스 변수를 생성.
@@ -102,19 +101,20 @@ public class UserServlet extends HttpServlet{
 			}
 			List<Map> userList = us.selectUser(hm);
 			String result = "";
-			for(Map m : userList){
-				result += m.toString();
+			for(Map m : userList){        //userList사이즈만큼 m에 넌다.
+				result += m.get();
 			}
 			doProcess(resq, result);
 		}else if(command.equals("LOGIN")){
 			String id = req.getParameter("userid");
+			String pwd = req.getParameter("userpwd");
 			System.out.println("아이디 : " + id);
 			
 			HashMap hm = new HashMap();
 			hm.put("id", id);
-			String userList = us.loginUser(hm);
-			
-			doProcess(resq, userList);
+			hm.put("pwd", pwd);
+			String result = us.loginUser(hm);
+			doProcess(resq, result);
 		}
 	}
 		

@@ -29,14 +29,13 @@ public class UserService {
 			ps.setString(1, hm.get("userid"));
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				String userpwd = rs.getString("userpwd");
+				String userpwd = rs.getString("userpwd"); //db에 저장되어있는 pwd를 가져온다.
 				return checkPwd(userpwd, hm.get("userpwd"));
 			}
 		}catch(Exception e){
 			
 		}
 		return "그런 아이디 없다잖아!!";
-		
 	}
 	
 	public boolean insertUser(HashMap<String,String> hm){
