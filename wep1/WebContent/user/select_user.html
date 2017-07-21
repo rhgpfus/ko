@@ -4,25 +4,23 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script src="/js/Ajax.js"></script>
 <script>
-function getHttpXmlObj(){
-    //해당브라우져가 익스플로러 7.0 이상이거나 파이어폭스, 크롭 등일경우
-	if(window.XMLHttpRequest){
-  		return new XMLHttpRequest();
- 	}else if(window.ActiveXObject){
-  		//해당 브라우져가 익스플로러 6.0 이하일경우
-  		return new ActiveXObject("Microsoft.XMLHTTP");
- 	}
-	//해당 브라우져가 듣보잡일경우.. 어떤 브라우져 인진 나도 모름.
-	alert("해당 브라우져가  Ajax를 지원하지 않습니다.");
+function doUpdate(userNum){
+	var userName = document.getElementById("r" + userNum + 1).value;
+	var userId = document.getElementById("r" + userNum + 2).value;
+	var age = document.getElementById("r" + userNum + 3).value;
+	var command = "UPDATE";
+	var params = "?usernum=" + userNum + "&username=" + userName + "&userid=" + userId + "&age=" + age + "&command=" + command;
+	var au = new AjaxUtil(params);
+	au.send();
 }
-
 function doDelete(userNum){
-	alert(userNum);
+	var command = "DELETE"
+	var params = "?usernum=" + userNum + "&command=" + command;
 	
-	var params = "?";
-	params+= "usernum="+userNum+"&";
-	params+= "command="+document.getElementById("command1").value+"&";
+	var au = new AjaxUtil(params);
+	au.send();
 }
 function doSelect(){
 	var idStr = "username,command";
@@ -54,69 +52,64 @@ function doSelect(){
 		}
 		params += ids[i]+ "=" + elObj.value + "&";
 	}
-	var xhr = getHttpXmlObj();
-	var method = "get";
-	var url = ".user";
-	var aSync = true;
-	xhr.onreadystatechange = function(){
-		if(xhr.readyState==4){
-			if(xhr.status==200){
-				var result = decodeURIComponent(xhr.responseText);
-				var rows = result.split("{+}");
-				var tdEnables = rows[1].split("{/}");
-				var tableStr = "<table border='1'>";
-				for(var i=0;i<rows.length;i++){ //4번실행
-					if(i==1){
-						continue;
-					}
-					tableStr += "<tr>";
-					var columns = rows[i].split("{/}");
-					var userNum;
-					for(var j=0;j<columns.length;j++){ //4번실행.
-						if(j==0){
-							userNum = columns[j];
-						}
-						if(i==0){
-							tableStr += "<td>" + columns[j] + "</td>"
-						}else{
-							if(tdEnables[j]=="en"){
-								tableStr += "<td><input type='text' value='" + columns[j] + "'/></td>"
-							}else{
-								tableStr += "<td>" + columns[j] + "</td>"
-							}
-						}
-					}
-					if(i==0){
-						tableStr += "<td>삭제</td>";
-						tableStr += "<td>수정</td>";
-					}else{
-						tableStr += "<td><input type='button' id='command1' value='삭제' onclick='doDelete(" + userNum + ")'/</td>";
-						tableStr += "<td><input type='button' id='command2' value='수정'/></td>";
-					}
-					tableStr += "</tr>";
-				}
-				if(rows.length==1){
-					tableStr += "<tr><td colspan='3'>니가 검색한거 없엉!</td></tr>"
-				}
-				tableStr += "</table>";
-				document.getElementById("bd_div").innerHTML += tableStr;
-				alert(result);
-			}else{
-				document.getElementById("bd_div").innerHTML += xhr.responseText;
-			}
-		}
-	}
-	xhr.open(method,url+params,aSync);
-	if(method=="post"){
-		xhr.setRequestHeader("Content-type","application/x-www-form-urlencode");
-	}
-	xhr.send();
+	
+	var au = new AjaxUtil(params);
+	au.changeCallBack(function(){
+		if (au.xhr.readyState==4){
+   			if(au.xhr.status==200){
+	   			var result = decodeURIComponent(au.xhr.responseText);
+	   			var rows = result.split("{+}");
+	   			var tdEnables = rows[1].split("{/}");
+	   			var tableStr ="<table border='1'>";
+	   			for(var i=0;i<rows.length;i++){
+	   				if(i==1){
+	   					continue;
+	   				}
+	   				tableStr += "<tr>";
+	   				var columns = rows[i].split("{/}");
+	   				var userNum;
+	   				for(var j=0;j<columns.length;j++){
+	   					if(j==0){
+	   						userNum = columns[j];
+	   					}
+	   					if(i==0){
+	   						tableStr += "<td>" + columns[j] + "</td>";
+	   					}else{
+	   						if(tdEnables[j]=="en"){
+	   							tableStr += "<td><input type='text' value='" + columns[j] + "' id='r" + userNum + j + "'/></td>";
+	   						}else{
+		   						tableStr += "<td>" + columns[j] + "</td>";
+	   						}
+	   					}
+	   				}
+   					if(i==0){
+   						tableStr += "<td>삭제</td>";
+   						tableStr += "<td>수정</td>";
+   					}else{
+   						tableStr += "<td><input type='button' value='삭제' onclick='doDelete(" + userNum + ")'/></td>";
+   						tableStr += "<td><input type='button' value='수정' onclick='doUpdate(" + userNum + ")'/></td>";
+   					}
+	   				tableStr += "</tr>";
+	   			}
+	   			if(rows.length==1){
+	   				tableStr += "<tr><td colspan='3'>니가 검색한거 없어 임마</td></tr>";
+	   			}
+	   			tableStr+="</table>";
+	   			document.getElementById("bd_div").innerHTML = tableStr;
+   			}else{
+   				document.getElementById("bd_div").innerHTML = xhr.responseText;
+   			}
+        }
+    });
+	au.send();
 }
 </script>
 <body>
-<div id="bd_div">
 이름 : <input type="text" name="username" id="username"/> <input type="button" value="검색" onclick="doSelect()"/>
-</div>
 <input type="hidden" name="command" id="command" value="SELECT"/>
+<div id="bd_div"></div>
+<script>
+doSelect();
+</script>
 </body>
 </html>
