@@ -2,34 +2,119 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 입력</title>
+<title>게시판 검색</title>
 </head>
+<script src="/js/BoardAjax.js"></script>
 <script>
-function checkValue(){
-	var titleObj = document.getElementById("title");
-	if(titleObj.value.trim()=="")){ //NaN이 문자이면 안되니 NaN이니? 라고 묻는다.
-		alert("제목을 입력해!");
-		titleObj.focus();
-		return false;
+function doDelete(boardNum){
+	var boardPwd = document.getElementById("boardpwd").value;
+	var command = "DELETE"
+	
+	var params = "?boardnum=" + boardNum + "&boardpwd=" + boardPwd + "&command=" + command;
+	
+	var au = new AjaxUtil(params);
+	au.send();
+}
+function doSelect(){
+	var columnStr = "boardtitle,command";
+	var lengthStr = "255,100";
+	
+	var params = "?";
+	var columns = columnStr.split(",");
+	var lengths = lengthStr.split(",");
+	
+	for(var i=0;i<columns.length;i++){
+		var maxLength = new Number(lengths[i]);
+		var columnsObj = document.getElementById(columns[i]);
+		if(!isNaN(maxLength)){
+			if(columnsObj.value.length>maxLength){
+				alert("제한길이를 넘었습니다.");
+				columnsObj.value = "";
+				columnsObj.focus();
+				return;
+			}
+		}
+		if(columns[i].value==""){
+			alert(columns[i] + "을 적어주세요.");
+			columnsObj.focus();
+			return;
+		}
+		params += columns[i] + "=" + columnsObj.value + "&";
 	}
-	return true;
+	
+	var au = new AjaxUtil(params);
+	au.changeCallBack(function(){
+		if (au.xhr.readyState==4){
+   			if(au.xhr.status==200){
+	   			var result = decodeURIComponent(au.xhr.responseText);
+	   			var rows = result.split("{+}");
+	   			var tdEnables = rows[1].split("{/}");
+	   			var tableStr ="<table border='1' cellspacing='0' cellpadding='0' width='400' align='center'>";
+	   			for(var i=0;i<rows.length;i++){
+	   				if(i==1){
+	   					continue;
+	   				}
+	   				tableStr += "<tr align='center'>";
+	   				var columnObj = rows[i].split("{/}");
+	   				var boardNum;
+	   				for(var j=0;j<columnObj.length;j++){
+	   					if(j==0){
+	   						boardNum = columnObj[j];
+	   					}
+	   					if(i==0){
+	   						tableStr += "<td>" + columnObj[j] + "</td>";
+	   					}else{
+	   						if(tdEnables[j]=="en"){
+	   							tableStr += "<td><input type='text' value='" + columnObj[j] + "' id='r" + boardNum + j + "'/></td>";
+	   						}else{
+		   						tableStr += "<td>" + columnObj[j] + "</td>";
+	   						}
+	   					}
+	   				}
+   					if(i==0){
+   						tableStr += "<td>비밀번호</td>";
+   						tableStr += "<td>삭제</td>";
+   						tableStr += "<td>수정</td>";
+   					}else{
+   						tableStr += "<td><input type='text' id='boardpwd' name='boardpwd'/></td>";
+   						tableStr += "<td><input type='button' value='삭제' onclick='doDelete(" + boardNum + ")'/></td>";
+   						tableStr += "<td><input type='button' value='수정' onclick='doUpdate(" + boardNum + ")'/></td>";
+   					}
+	   				tableStr += "</tr>";
+	   			}
+	   			if(rows.length==1){
+	   				tableStr += "<tr><td colspan='3'>존재하지 않습니다.</td></tr>";
+	   			}
+	   			tableStr+="</table>";
+	   			document.getElementById("bd_div").innerHTML = tableStr;
+   			}else{
+   				document.getElementById("bd_div").innerHTML = xhr.responseText;
+   			}
+        }
+    });
+	au.send();
+	
 }
 </script>
 <body>
-<form method="get" action="*.board" onsubmit="return checkValue()">
-	<table border=1 cellspacing="0" cellpadding="0" width="400" align="center">
-		<tr>
-	 		<td colspan="2"><p align="center"> = 게시판 검색 = </p></td>
-	 	</tr>
-		<tr align="center">
-			<td>검색할 제목 : </td>
-			<td><input type="text" id="title" name="title"/></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center"><input type="submit" value="검색"/></td>
-		</tr>
-	</table>
+<table border=1 cellspacing="0" cellpadding="0" width="400" align="center">
+	<tr>
+	 	<td colspan="2"><p align="center"> = 게시판 검색 = </p></td>
+	</tr>
+	<tr align="center">
+		<td>검색할 제목 : </td>
+		<td><input type="text" id="boardtitle" name="boardtitle"/></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+		<input type="button" value="검색" onclick="doSelect()"/>
+		</td>
+	</tr>
+</table>
 <input type="hidden"name="command"id="command"value="SELECT"/>
-</form>
+<div id="bd_div"></div>
+<script>
+doSelect();
+</script>
 </body>
 </html>

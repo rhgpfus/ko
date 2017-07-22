@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.test.DTO.BoardInfo;
 import com.test.service.BoardService;
 
 
@@ -22,6 +23,23 @@ public class BoardServlet extends HttpServlet{
 	public void doGet(HttpServletRequest req, HttpServletResponse resq) throws IOException, ServletException{		
 		req.setCharacterEncoding("UTF-8");
 		
+		String boardNum = req.getParameter("boardnum");
+		String boardTitle = req.getParameter("boardtitle");
+		String boardContent = req.getParameter("boardcontent");
+		String boardPwd = req.getParameter("boardpwd");
+		String boardWriter = req.getParameter("boardwriter");
+		String boardDate = req.getParameter("boarddate");
+		BoardInfo bi = new BoardInfo();
+		if(boardNum!=null) {
+			bi.setBoardNum(Integer.parseInt(boardNum));
+		}
+		bi.setBoardTitle(boardTitle);
+		bi.setBoardContent(boardContent);
+		bi.setBoardPwd(boardPwd);
+		bi.setBoardWriter(boardWriter);
+		bi.setBoardDate(boardDate);
+		
+		
 		String command = req.getParameter("command");
 		if(command==null){
 			return;
@@ -29,20 +47,11 @@ public class BoardServlet extends HttpServlet{
 		BoardService bs = new BoardService();
 		
 		if(command.equals("INSERT")){
-			String title = req.getParameter("title");
-			String content = req.getParameter("content");
-			String userNum = req.getParameter("num");
-			System.out.println("제목 : " + title + "내용 : " + content + "글쓴이 : " + userNum);
-			
-			HashMap hm = new HashMap();
-			hm.put("title", title);
-			hm.put("content", content);
-			hm.put("num", userNum); //키값이 user_num 안에 userNum은 내가 브라우저에서 입력한 값을 넣은것!
-			
-			if(bs.insertBoard(hm)){
-				doProcess(resq,"게시판 입력 완료!");
+			System.out.println("제목 : " + boardTitle);
+			if(bs.insertBoard(bi)){
+				doProcess(resq,"게시판 입력에 성공하셨습니다.");
 			}else{
-				doProcess(resq,"게시판 입력 실패!");
+				doProcess(resq,"게시판 입력에 실패하셨습니다.");
 			}
 		}else if(command.equals("UPDATE")){
 			String userNum = req.getParameter("num");
@@ -61,58 +70,29 @@ public class BoardServlet extends HttpServlet{
 				doProcess(resq,"수정 실패!");
 			}
 		}else if(command.equals("DELETE")){
-			String userNum = req.getParameter("num");
-			System.out.println("삭제할 유저 번호 : " + userNum);
-			
-			HashMap hm = new HashMap();
-			hm.put("num", userNum);
-			
-			if(bs.deleteBoard(hm)){
-				doProcess(resq,"삭제 완료!");
-			}else{
-				doProcess(resq,"삭제 실패!");
+			System.out.println("삭제할 유저 번호 : " + boardNum);
+			int boardInt = bs.deleteBoard(bi);
+			if(boardInt==3){
+				doProcess(resq,"게시판 삭제에 성공하셨습니다.");
+			}else if(boardInt==1){
+				doProcess(resq,"비밀번호를 입력하세요.");
+			}else if(boardInt==2){
+				doProcess(resq,"비밀번호가 틀립니다. 다시 입력하세요.");
+			}else {
+				doProcess(resq,"시스템 에러.");
 			}
 		}else if(command.equals("SELECT")){
-			String title = req.getParameter("title");
-			System.out.println("검색할 제목 : " + title);
-			
-			HashMap hm = new HashMap();
-			hm.put("title", title);
-			if(title!=null && !title.equals("")){
-				hm.put("title", "%"+title+"%"); 
-			}else{
-				hm.put("title", title);
+			System.out.println("검색할 제목 : " + boardTitle);
+			if(boardTitle!=null && !boardTitle.equals("")){
+				bi.setBoardTitle("%" + boardTitle + "%");
 			}
-			List<Map> boardList = bs.selectBoard(hm);
-			String result = "<script>";
-			result += "function deleteBoard(num){";
-			result += "location.href='*.board?command=DELETE&num=' + num;";
-			result += "}";
-			result += "</script>";
-			result += "<form action='/wep1/*.board'>";
-			result += "이름 : <input type='text' name='title' id='title'/> <input type='submit' value='검색'/>";
-			result += "<input type='hidden' name='command' value='SELECT'/>";
-			result += "</form>";
-			result += "<table border='1'>";
-			result += "<tr>";
-			result += "<td>유저번호</td>";
-			result += "<td>제목</td>";
-			result += "<td>내용</td>";
-			result += "<td>글쓴이</td>";
-			result += "<td>글쓴 날짜와 시간</td>";
-			result += "<td>삭제버튼</td>";
-			result += "</tr>";
-			for (Map m : boardList) {
-				result += "<tr align='center'>";
-				result += "<td>" + m.get("num") + "</td>";
-				result += "<td>" + m.get("title") + "</td>";
-				result += "<td>" + m.get("content") + "</td>";
-				result += "<td>" + m.get("writer") + "</td>";
-				result += "<td>" + m.get("reg_date") + "</td>";
-				result += "<td><input type='button' value='삭제' onclick='deleteBoard(" + m.get("num") + ")'/></td>";
-				result += "</tr>";
+			List<BoardInfo> boardList = bs.selectBoard(bi);
+			String result = "번호{/}제목{/}내용{/}글쓴이{/}날짜{+}";
+			result += "dis{/}en{/}en{/}en{/}en{+}";
+			for (BoardInfo bi2 : boardList) {
+				result += bi2.getBoardNum() + "{/}" + bi2.getBoardTitlem() + "{/}" + bi2.getBoardContent() + "{/}" + bi2.getBoardWriter() + "{/}" + bi2.getBoardDate() + "{+}";
 			}
-			result += "</table>";
+			result = result.substring(0, result.length()-4);
 			doProcess(resq, result);
 		}
 	}

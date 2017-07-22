@@ -5,53 +5,92 @@
 <title>게시판 입력</title>
 </head>
 <script>
-function checkValue(){
-	var titleObj = document.getElementById("title");
-	if(titleObj.value.trim()==""){
-		alert("제목입력안해?!");
-		titleObj.focus();
-		return false;
+function getHttpXmlObj(){
+	if(window.XMLHttpRequest){
+		return new XMLHttpRequest();
+	}else if(window.ActiveXObject){
+		return new ActiveXObject("Microsoft.XMLHTTP");
 	}
-	var contentObj = document.getElementById("content");
-	if(contentObj.value.trim()==""){
-		alert("내용입력안해?!");
-		contentObj.focus();
-		return false;
+	alert("해당 브라우져가 Ajax를 지원하지 않습니다.");
+}
+function doInsert(){
+	var columnStr = "boardtitle,boardcontent,boardwriter,boardpwd,command";
+	var lengthStr = "255,1000,100,100,100";
+	var params = "?";
+	
+	var columns = columnStr.split(",");
+	var lengths = lengthStr.split(",");
+	
+	for(var i=0;i<columns.length;i++){
+		var maxLength = new Number(lengths[i]);
+		var columnsObj = document.getElementById(columns[i]);
+		if(!isNaN(maxLength)){
+			if(columnsObj.value.length>maxLength){
+				alert("제한길이를 넘었습니다.");
+				columnsObj.value = "";
+				columnsObj.focus();
+				return;
+			}
+		}
+		if(columns[i].value==""){
+			alert(columns[i] + "을 적어주세요.");
+			columnsObj.focus();
+			return;
+		}
+		params += columns[i] + "=" + columnsObj.value + "&";
 	}
-	var userNumObj = document.getElementById("user_num");
-	var userNum = parseInt(userNumObj.value); //문자열을 숫자로 바꿔준다.
-	if(isNaN(userNum)){ //NaN이 문자이면 안되니 NaN이니? 라고 묻는다.
-		alert("문자는 안되! 숫자를 입력해!");
-		userNumObj.focus();
-		return false;
+	var xhr = getHttpXmlObj();
+	var method = "get";
+	var url = ".board";
+	var aSync = true;
+	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState==4){
+			if(xhr.status==200){
+				var result = decodeURIComponent(xhr.responseText);
+				alert(result);
+			}else{
+				document.getElementById("bd_div").innerHTML += xhr.responseText;
+			}
+		}
 	}
-	return true;
+	xhr.open(method,url+params,aSync);
+	if(method=="post"){
+		xhr.setRequestHeader("Content-type","application/x-www-form-urlencode");
+	}
+	xhr.send();
 	
 }
 </script>
 <body>
-<form method="get" action="*.board" onsubmit="return checkValue()">
-	<table border=1 bordercolor="blue" cellspacing="0" cellpadding="0" width="400" align="center">
-		<tr>
-	 		<td colspan="2"><p align="center"> = 게시판 입력 = </p></td>
-	 	</tr>
-		<tr align="center">
-			<td>제목 : </td>
-			<td><input type="text" id="title" name="title"/></td>
-		</tr>
-		<tr align="center">
-			<td>내용 : </td>
-			<td><textarea id="content" name="content"></textarea></td>
-		</tr>
-		<tr align="center">
-			<td>글쓴이 : </td>
-			<td><input type="text" id="user_num" name="user_num"/></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center"><input type="submit" value="글쓰기"/></td>
-		</tr>
-	</table>
-<input type="hidden" name="commend" id="commend" value="INSERT"/>
-</form>
+<div width="100%" id="bd_div">
+<table border=1 bordercolor="blue" cellspacing="0" cellpadding="0" width="400" align="center">
+	<tr>
+	 	<td colspan="2"><p align="center"> = 게시판 입력 = </p></td>
+	 </tr>
+	<tr align="center">
+		<td>제목 : </td>
+		<td><input type="text" id="boardtitle" name="boardtitle"/></td>
+	</tr>
+	<tr align="center">
+		<td>내용 : </td>
+		<td><textarea id="boardcontent" name="boardcontent"></textarea></td>
+	</tr>
+	<tr align="center">
+		<td>글쓴이 : </td>
+		<td><input type="text" id="boardwriter" name="boardwriter"/></td>
+	</tr>
+	<tr align="center">
+		<td>비밀번호 : </td>
+		<td><input type="password" id="boardpwd" name="boardpwd"/></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+		<input type="button" value="글쓰기" onclick="doInsert()"/>
+		</td>
+	</tr>
+</table>
+</div>
+<input type="hidden" name="command" id="command" value="INSERT"/>
 </body>
 </html>
