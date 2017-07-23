@@ -74,7 +74,7 @@ public class BoardService {
 						con.commit();
 						return true;
 					}
-				}
+				}   
 			}
 			return true;
 		}catch(SQLException | ClassNotFoundException e){

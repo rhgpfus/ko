@@ -71,7 +71,7 @@ public class BoardServlet extends HttpServlet{
 			}
 		}else if(command.equals("DELETE")){
 			System.out.println("삭제할 유저 번호 : " + boardNum);
-			if(bs.deleteBoard(bi)){
+			if(bs.deleteBoard(bi)){ 
 				doProcess(resq,"게시판 삭제에 성공하셨습니다.");
 			}else{
 				doProcess(resq,"게시판 삭제에 실패하셨습니다.");
