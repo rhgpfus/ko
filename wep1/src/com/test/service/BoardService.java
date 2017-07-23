@@ -64,18 +64,19 @@ public class BoardService {
 			}
 			ps.setInt(1,bi.getBoardNum());
 			rs = ps.executeQuery();
+			List boardList = new ArrayList();
 			while(rs.next()) {
-				System.out.println(rs.getString("boardpwd"));
-				if(!rs.getString("boardpwd").equals(bi.getBoardPwd())) {
-					return false;
-				}else {
-					int result = ps.executeUpdate();
-					if(result==1){
-						con.commit();
-						return true;
-					}
-				}   
+				BoardInfo bi2 = new BoardInfo();
+				bi2.setBoardPwd(rs.getString("boardpwd"));
+				boardList.add(bi2);
 			}
+			System.out.println(boardList.get(0));
+			System.out.println(bi.getBoardPwd());
+//			int result = ps.executeUpdate();
+//			if(result==1){
+//				con.commit();
+//				return true;
+//			}
 			return true;
 		}catch(SQLException | ClassNotFoundException e){
 			try{
