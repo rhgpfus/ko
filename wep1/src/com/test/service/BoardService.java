@@ -50,7 +50,7 @@ public class BoardService {
 		return false;
 	}
 	
-	public List<BoardInfo> deleteBoard(BoardInfo bi){
+	public boolean deleteBoard(BoardInfo bi){
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -58,23 +58,25 @@ public class BoardService {
 			con = DBConn.getCon();
 			String sql = "delete from board_info";
 			sql += " where boardnum=?";
-			
 			ps = con.prepareStatement(sql);
+			if(bi.getBoardPwd().equals("")){
+				return false;
+			}
 			ps.setInt(1,bi.getBoardNum());
 			rs = ps.executeQuery();
-			List boardList = new ArrayList();
 			while(rs.next()) {
-				BoardInfo bi2 = new BoardInfo();
-				bi2.setBoardNum(rs.getInt("boardnum"));
-				bi2.setBoardTitle(rs.getString("boardtitle"));
-				bi2.setBoardContent(rs.getString("boardcontent"));
-				bi2.setBoardPwd(rs.getString("boardpwd"));
-				bi2.setBoardWriter(rs.getString("boardwriter"));
-				bi2.setBoardDate(rs.getString("boarddate"));
-				boardList.add(bi2);
+				System.out.println(rs.getString("boardpwd"));
+				if(!rs.getString("boardpwd").equals(bi.getBoardPwd())) {
+					return false;
+				}else {
+					int result = ps.executeUpdate();
+					if(result==1){
+						con.commit();
+						return true;
+					}
+				}
 			}
-			con.commit();
-			return boardList;
+			return true;
 		}catch(SQLException | ClassNotFoundException e){
 			try{
 				con.rollback();
@@ -90,7 +92,7 @@ public class BoardService {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return false;
 	}
 	
 	public boolean updateBoard(HashMap<String,String> hm){

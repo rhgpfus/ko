@@ -71,15 +71,10 @@ public class BoardServlet extends HttpServlet{
 			}
 		}else if(command.equals("DELETE")){
 			System.out.println("삭제할 유저 번호 : " + boardNum);
-			int boardInt = bs.deleteBoard(bi);
-			if(boardInt==3){
+			if(bs.deleteBoard(bi)){
 				doProcess(resq,"게시판 삭제에 성공하셨습니다.");
-			}else if(boardInt==1){
-				doProcess(resq,"비밀번호를 입력하세요.");
-			}else if(boardInt==2){
-				doProcess(resq,"비밀번호가 틀립니다. 다시 입력하세요.");
-			}else {
-				doProcess(resq,"시스템 에러.");
+			}else{
+				doProcess(resq,"게시판 삭제에 실패하셨습니다.");
 			}
 		}else if(command.equals("SELECT")){
 			System.out.println("검색할 제목 : " + boardTitle);
