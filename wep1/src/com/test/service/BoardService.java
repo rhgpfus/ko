@@ -66,9 +66,10 @@ public class BoardService {
 			rs = ps.executeQuery();
 			List boardList = new ArrayList();
 			while(rs.next()) {
-				BoardInfo bi2 = new BoardInfo();
-				bi2.setBoardPwd(rs.getString("boardpwd"));
-				boardList.add(bi2);
+				String boardpwd = rs.getString("boardpwd");
+				if(!boardpwd.equals(bi.getBoardPwd())){
+					return false;
+				}
 			}
 			System.out.println(boardList.get(0));
 			System.out.println(bi.getBoardPwd());
