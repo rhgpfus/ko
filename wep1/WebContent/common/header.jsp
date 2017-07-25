@@ -48,6 +48,8 @@ function doBoardMove(pageId){
 		url = rootPath + "/board/board_select.jsp";
 	}else if(pageId=="main"){
 		url = rootPath + "/";
+	}else if(pageId=="boardInsert"){
+		url = rootPath + "/board/board_insert.jsp";
 	}
 	location.href = url;
 }
