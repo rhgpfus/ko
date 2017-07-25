@@ -55,17 +55,17 @@ if(id!=null && pwd!=null){
 		System.out.print(e);
 	}
 	if(result.equals("")){
-		result =  "그런 아이디 없다잖아!!";	
+		result =  "아이디가 정확하지 않습니다.";	
 	}
 	out.println(result);
 }else{
 	// 세션 초기화
+	result = "로그아웃 되셨습니다.";
 	session.invalidate();
 }
 %>
 <script>
-var result = "<%=result%>";
-alert(result);
+alert("<%=result%>");
 location.href="/user/login.jsp";
 </script>
 </body>
