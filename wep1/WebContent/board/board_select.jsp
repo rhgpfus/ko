@@ -7,6 +7,8 @@
 <style>
 #aa{margin-left:990px;}
 </style>
+<script>
+</script>
 <body>
 
 <form action="/board/board_select.jsp">
@@ -67,17 +69,24 @@ try{
 	tableStr += "<td>작성일자</td>";
 	tableStr += "</tr>";
 	while(rs.next()){
+		int bNum = rs.getInt("boardnum");
 		tableStr += "<tr align='center'>";
-		tableStr += "<td>"+rs.getInt("boardnum") + "</td>";
-		tableStr += "<td>"+rs.getString("boardtitle") + "</td>";
-		tableStr += "<td>"+rs.getString("boardwriter") + "</td>";
-		tableStr += "<td>"+rs.getString("boarddate") + "</td>";
+		tableStr += "<td>"+ rs.getInt("boardnum") + "</td>";
+		tableStr += "<td style='cursor:pointer' onclick='doBoardMove(\"boardUpdate\","+ bNum + ")'>" + rs.getString("boardtitle") + "</td>";
+		tableStr += "<td>" + rs.getString("boardwriter") + "</td>";
+		tableStr += "<td>" + rs.getString("boarddate") + "</td>";
 		tableStr += "</tr>";
 	}
 	tableStr += "</table>";
 	out.println(tableStr);
 }catch(Exception e){
 	System.out.println(e);
+}finally{
+	if(ps!=null){
+		ps.close();
+		ps = null;
+	}
+	DBConn.closeCon();
 }
 %>
 </body>

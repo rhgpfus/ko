@@ -12,8 +12,9 @@ table tr td{width:200px;}
 #bd_div{position:absolute; left:50%; margin-left:-200px;}
 #dd{height:50px;}
 </style>
+
 <body>
-<form action="/board/board_select.jsp">
+<form action="/board/board_insert_ok.jsp">
 <div id="bd_div">
 <table border=1 cellspacing="0" cellpadding="0" >
 	<tr align="center" id="dd">
@@ -38,7 +39,7 @@ table tr td{width:200px;}
 	
 </table>
 <input type="button" value="메인가기" onclick="doBoardMove('main')"/>
-<input type="button" value="글쓰기" onclick="doInsert()"/>
+<input type="submit" value="글쓰기"/>
 </div>
 </form>	
 </body>

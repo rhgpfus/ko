@@ -19,6 +19,7 @@ String boardcontent = request.getParameter("boardcontent");
 String boardwriter = request.getParameter("boardwriter");
 String boardpwd = request.getParameter("boardpwd");
 int result = 0;
+String message = "";
 
 if(boardtitle!=null && boardcontent!=null && boardwriter!=null && boardpwd!=null){
 	BoardInfo bi = new BoardInfo();
@@ -40,18 +41,20 @@ if(boardtitle!=null && boardcontent!=null && boardwriter!=null && boardpwd!=null
 		ps.setString(2, bi.getBoardContent());
 		ps.setString(3, bi.getBoardPwd());
 		ps.setString(4, bi.getBoardWriter());
-		int result = ps.executeUpdate();
+		result = ps.executeUpdate();
 		if(result==1){
+			session.setAttribute("boardtitle", bi.getBoardTitlem());
+			session.setAttribute("boardcontent", bi.getBoardContent());
+			session.setAttribute("boardwriter", bi.getBoardWriter());
+			session.setAttribute("boarddate", bi.getBoardDate());
+			
+			message = "글이 정상적으로 올라갔습니다.";
 			con.commit();
-			return true;
 		}
-	}catch(SQLException | ClassNotFoundException e){
-		try {
-			con.rollback();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		e.printStackTrace();
+	}catch(Exception e){
+		System.out.println(e);
+		message = "글이 정상적으로 올라가지 않았습니다.";
+		con.rollback();
 	}finally{
 		try{
 			ps.close();
@@ -60,13 +63,11 @@ if(boardtitle!=null && boardcontent!=null && boardwriter!=null && boardpwd!=null
 			e.printStackTrace();
 		}
 	}
-	return false;
-	}
-	
-
-
-
+}
 %>
-
+<script>
+alert("<%=message%>");
+location.href= "<%=rootPath%>" + "/board/board_select.jsp";
+</script>
 </body>
 </html>
