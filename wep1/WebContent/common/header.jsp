@@ -37,6 +37,13 @@ String rootPath = request.getContextPath();    //path가 무슨이름이건 거�
 Date toDate = new Date();
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 String toDateStr = sdf.format(toDate);
+
+String init = request.getParameter("init");
+String defaultUrl = "";
+if(init==null && !login){
+	defaultUrl = rootPath + "/user/login.jsp?init=1";
+	response.sendRedirect(defaultUrl);
+}
 %>
 <script src="<%=rootPath%>/js/jquery-3.2.1.js"></script>
 <script>

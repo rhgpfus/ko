@@ -4,9 +4,11 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="com.test.common.DBConn" %>
 <%@ page import="com.test.DTO.BoardInfo" %>
+<body>
+
 <%
 String boardNum = request.getParameter("boardnum");
-
+String bPwd="";
 BoardInfo bi = new BoardInfo();
 if(boardNum!=null){
 	bi.setBoardNum(Integer.parseInt(boardNum));
@@ -17,7 +19,7 @@ if(boardNum!=null){
 	
 	try{
 		con = DBConn.getCon();
-		String sql = "select boardnum,boardtitle,boardcontent,boardwriter,boarddate from board_info";
+		String sql = "select boardnum,boardtitle,boardcontent,boardwriter,boarddate,boardpwd from board_info";
 		sql += " where boardnum=?";
 		
 		ps = con.prepareStatement(sql);
@@ -28,21 +30,24 @@ if(boardNum!=null){
 		tableStr += "<tr align='center'>";
 		tableStr += "<td colspan='6'><p align='center'> = 게시판 수정 = </p></td>";
 		tableStr += "</tr>";
-		tableStr += "<tr align='center'><td>수정할 보드 번호</td>";
+		tableStr += "<tr align='center'><td>번호</td>";
 		tableStr += "<td>제목</td>";
 		tableStr += "<td>내용</td>";
 		tableStr += "<td>글쓴이</td>";
 		tableStr += "<td>작성일자</td>";
 		tableStr += "<td>비밀번호</td>";
+		
 		while(rs.next()){
 			int bNum = rs.getInt("boardnum");
+			bPwd = rs.getString("boardpwd");
 			tableStr += "<tr align='center'>";
 			tableStr += "<td>" + rs.getInt("boardnum") + "</td>";
-			tableStr += "<td><input type='text' value=" + rs.getString("boardtitle") + " id='title' name='title'/></td>";
-			tableStr += "<td><input type='text' value=" + rs.getString("boardcontent") + " id='content' name='content'/></td>";
+			tableStr += "<td><input type='text' value=" + rs.getString("boardtitle") + " id='boardtitle'/></td>";
+			tableStr += "<td><input type='text' value=" + rs.getString("boardcontent") + " id='boardcontent'/></td>";
 			tableStr += "<td>" + rs.getString("boardwriter") + "</td>";
 			tableStr += "<td>" + rs.getString("boarddate") + "</td>";
-			tableStr += "<td><input type='password' id='pwd' name='pwd'></td>";
+			tableStr += "<td>" + rs.getString("boardpwd") + "</td>";
+			
 			tableStr += "</tr>";
 		}
 		tableStr += "</table>";
@@ -59,10 +64,8 @@ if(boardNum!=null){
 }
 
 %>
-
-<body>
-<form action="/board/board_update_ok.jsp">
-<input type="submit" value="수정"/>
+<form action="<%=rootPath%>/board/board_view.jsp">
+<input type="submit" value="수정완료"/>
 </form>
 </body>
 </html>

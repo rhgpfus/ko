@@ -13,8 +13,8 @@
 <%
 String id = request.getParameter("id");
 String pwd = request.getParameter("pwd");
-String result = "";
 
+String result = "";
 if(id!=null && pwd!=null){
 	UserInfo ui = new UserInfo();
 	ui.setUserId(id);
@@ -53,9 +53,16 @@ if(id!=null && pwd!=null){
 		}
 	}catch(Exception e){
 		System.out.print(e);
+	}finally{
+		if(ps!=null){
+			ps.close();
+			ps = null;
+		}
+		DBConn.closeCon();
 	}
+	
 	if(result.equals("")){
-		result =  "아이디가 정확하지 않습니다.";	
+		result =  "그런 아이디 없다잖아!!";
 	}
 	out.println(result);
 }else{
