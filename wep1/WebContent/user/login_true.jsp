@@ -12,9 +12,9 @@
 <body>
 <%
 String id = request.getParameter("id");
-String pwd = request.getParameter("pwd");
-
+String pwd = request.getParameter("password");
 String result = "";
+
 if(id!=null && pwd!=null){
 	UserInfo ui = new UserInfo();
 	ui.setUserId(id);
@@ -73,7 +73,7 @@ if(id!=null && pwd!=null){
 %>
 <script>
 alert("<%=result%>");
-location.href="/user/login.jsp";
+location.href="/main.jsp";
 </script>
 </body>
 </html>

@@ -14,19 +14,24 @@ table tr td{width:200px;}
 </style>
 
 <body>
+<jsp:include page="/common/top.jsp" flush="fasle"></jsp:include>
+<div class="container">
+      <div class="starter-template">
 <form action="/board/board_insert_ok.jsp">
 <div id="bd_div">
-<table border=1 cellspacing="0" cellpadding="0" >
+<table class='table table-bordered table-hover'>
 	<tr align="center" id="dd">
-	 	<td colspan="2"><p> = 게시판 입력 = </p></td>
+	 	<td colspan="2"><p>게시판 입력</p></td>
 	 </tr>
 	<tr align="center" id="title">
 		<td>제목 : </td>
 		<td><input type="text" id="boardtitle" name="boardtitle"/></td>
 	</tr>
 	<tr align="center" id="bb">
-		<td>내용 : </td>
-		<td><textarea id="boardcontent" name="boardcontent"></textarea></td>
+		<td colspan="2">내용</td>
+	</tr>
+	<tr align="center" id="bb">
+		<td colspan="2"><textarea id="boardcontent" name="boardcontent"></textarea></td>
 	</tr>
 	<tr align="center">
 		<td>글쓴이 : </td>
@@ -42,5 +47,7 @@ table tr td{width:200px;}
 <input type="submit" value="글쓰기"/>
 </div>
 </form>	
+</div>
+</div>
 </body>
 </html>

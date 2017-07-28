@@ -43,11 +43,6 @@ if(boardtitle!=null && boardcontent!=null && boardwriter!=null && boardpwd!=null
 		ps.setString(4, bi.getBoardWriter());
 		result = ps.executeUpdate();
 		if(result==1){
-			session.setAttribute("boardtitle", bi.getBoardTitlem());
-			session.setAttribute("boardcontent", bi.getBoardContent());
-			session.setAttribute("boardwriter", bi.getBoardWriter());
-			session.setAttribute("boarddate", bi.getBoardDate());
-			
 			message = "글이 정상적으로 올라갔습니다.";
 			con.commit();
 		}

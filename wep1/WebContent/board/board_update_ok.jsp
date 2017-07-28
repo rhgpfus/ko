@@ -7,29 +7,29 @@
 
 <%
 String boardTitle = request.getParameter("boardtitle");
-String biContent = request.getParameter("bicontent");
-String biPwd = request.getParameter("bipwd");
-String creusr = request.getParameter("creusr");
-String binum = request.getParameter("binum");
+String boardContent = request.getParameter("boardcontent");
+String boardPwd = request.getParameter("boardpwd");
+String boardWriter = request.getParameter("boardwriter");
+String boardnum = request.getParameter("boardnum");
 String sql = "update board_info";
-sql += " set bititle=?,";
-sql += "  bicontent=?,";
-sql += "  bipwd=?,";
-sql += "  creusr=?";
-sql += "  where binum=?";
+sql += " set boardtitle=?,";
+sql += "  boardcontent=?,";
+sql += "  boardpwd=?,";
+sql += "  boardwriter=?";
+sql += "  where boardnum=?";
 
 Connection con = null;
 PreparedStatement ps = null;
-String result = "수정 안된거 같다야~?";
+String result = "수정 실패.";
 int resultNum =0;
 try{
 	con = DBConn.getCon();
 	ps = con.prepareStatement(sql);
-	ps.setString(1, biTitle);
-	ps.setString(2, biContent);
-	ps.setString(3, biPwd);
-	ps.setString(4, creusr);
-	ps.setString(5, binum);
+	ps.setString(1, boardTitle);
+	ps.setString(2, boardContent);
+	ps.setString(3, boardPwd);
+	ps.setString(4, boardWriter);
+	ps.setString(5, boardnum);
 	
 	resultNum = ps.executeUpdate();
 	if(resultNum==1){
@@ -49,7 +49,7 @@ try{
 <script>
 alert("<%=result%>");
 if(<%=resultNum%> == 1){
-	location.href= "<%=rootPath%>/board/board_view.jsp?boardnum=<%=boardnum%>";
+	location.href= "<%=rootPath%>/board/board_select_view.jsp?boardnum=<%=boardnum%>";
 }else{
 	history.back();
 }

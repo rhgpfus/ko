@@ -5,9 +5,12 @@
 <%@ page import="com.test.common.DBConn" %>
 <%@ page import="com.test.DTO.BoardInfo" %>
 <body>
+<jsp:include page="/common/top.jsp" flush="fasle">
+	<jsp:param value="<%=login%>" name="login"/>
+</jsp:include>
 <script>
-function goBoard(boardnum,param2){
-	location.href ="<%=rootPath%>/board/board_view.jsp?boardnum=" + boardnum;
+function goBoard(boardnum){
+	location.href ="<%=rootPath%>/board/board_select_view.jsp?boardnum=" + boardnum;
 }
 function doSearch(){
 	var searchTarget = document.getElementById("searchTarget").value;
@@ -15,6 +18,8 @@ function doSearch(){
 	location.href ="<%=rootPath%>/board/board_select.jsp?searchTarget=" + searchTarget + "&searchStr=" + searchStr;
 }
 </script>
+	<div class="container">
+      <div class="starter-template">
 <%
 String searchTarget = request.getParameter("searchTarget");
 String searchStr = request.getParameter("searchStr");
@@ -43,7 +48,7 @@ try{
 		}
 	}
 	ResultSet rs = ps.executeQuery();
-	String tableStr="<table border='1'>";
+	String tableStr="<table class='table table-bordered table-hover'>";
 	tableStr += "<tr>";
 	tableStr += "<td>번호</td>";
 	tableStr += "<td>제목</td>";
@@ -74,7 +79,7 @@ try{
 		tableStr += "<option value='bicontitle'>제목 + 내용</option>";
 		tableStr += "</select> ";
 		tableStr += " <input type='text' name='searchStr' id='searchStr'/> ";
-		tableStr += " <input type='button' value='검색' onclick='doSearch()'/>";
+		tableStr += " <a href='#' class='btn btn-default' onclick='doSearch()'>검색</a>";
 		tableStr += "</td>";
 		tableStr += "</tr>";
 	}
@@ -92,5 +97,7 @@ try{
 %>
 <input type="button" value="게시글 작성" onclick="doBoardMove('boardInsert')"/>
 <input type="button" value="메인가기" onclick="doBoardMove('main')"/>
+	</div>
+</div>
 </body>
 </html>

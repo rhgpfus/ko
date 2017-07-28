@@ -5,53 +5,35 @@
 <%@ page import="com.test.common.DBConn" %>
 <%@ page import="com.test.DTO.BoardInfo" %>
 <body>
-
+<jsp:include page="/common/top.jsp" flush="fasle"></jsp:include>
+<div class="container">
+      <div class="starter-template">
 <%
-String boardNum = request.getParameter("boardnum");
-String bPwd="";
-BoardInfo bi = new BoardInfo();
-if(boardNum!=null){
-	bi.setBoardNum(Integer.parseInt(boardNum));
-	
+	int boardNum = Integer.parseInt(request.getParameter("boardnum"));
 	Connection con = null;
 	PreparedStatement ps = null;
-	ResultSet rs = null;
-	
+	int bNum = 0;
+	String bTitle = "";
+	String bContent = "";
+	String bPwd = "";
+	String bWriter = "";
+	String bDate = "";
 	try{
 		con = DBConn.getCon();
 		String sql = "select boardnum,boardtitle,boardcontent,boardwriter,boarddate,boardpwd from board_info";
 		sql += " where boardnum=?";
-		
 		ps = con.prepareStatement(sql);
-		ps.setInt(1,bi.getBoardNum());
+		ps.setInt(1,boardNum);
 		
-		rs = ps.executeQuery();
-		String tableStr="<table border=1 cellspacing='0' cellpadding='0' width='400' align='center'>";
-		tableStr += "<tr align='center'>";
-		tableStr += "<td colspan='6'><p align='center'> = 게시판 수정 = </p></td>";
-		tableStr += "</tr>";
-		tableStr += "<tr align='center'><td>번호</td>";
-		tableStr += "<td>제목</td>";
-		tableStr += "<td>내용</td>";
-		tableStr += "<td>글쓴이</td>";
-		tableStr += "<td>작성일자</td>";
-		tableStr += "<td>비밀번호</td>";
-		
+		ResultSet rs = ps.executeQuery();
 		while(rs.next()){
-			int bNum = rs.getInt("boardnum");
+			bNum = rs.getInt("boardnum");
+			bTitle = rs.getString("boardtitle");
+			bContent = rs.getString("boardcontent");
 			bPwd = rs.getString("boardpwd");
-			tableStr += "<tr align='center'>";
-			tableStr += "<td>" + rs.getInt("boardnum") + "</td>";
-			tableStr += "<td><input type='text' value=" + rs.getString("boardtitle") + " id='boardtitle'/></td>";
-			tableStr += "<td><input type='text' value=" + rs.getString("boardcontent") + " id='boardcontent'/></td>";
-			tableStr += "<td>" + rs.getString("boardwriter") + "</td>";
-			tableStr += "<td>" + rs.getString("boarddate") + "</td>";
-			tableStr += "<td>" + rs.getString("boardpwd") + "</td>";
-			
-			tableStr += "</tr>";
+			bWriter = rs.getString("boardwriter");
+			bDate = rs.getString("boarddate");
 		}
-		tableStr += "</table>";
-		out.println(tableStr);
 	}catch(Exception e){
 		System.out.println(e);
 	}finally{
@@ -61,11 +43,34 @@ if(boardNum!=null){
 		}
 		DBConn.closeCon();
 	}
-}
-
 %>
-<form action="<%=rootPath%>/board/board_view.jsp">
-<input type="submit" value="수정완료"/>
-</form>
+
+<form method="get" action="<%=rootPath%>/board/board_update_ok.jsp" >
+				<table class='table table-bordered table-hover'>
+					<tr>
+						<td>제목</td>
+						<td><input type="text" name="boardtitle" id="boardtitle"
+							value="<%=bTitle%>" /></td>
+					</tr>
+					<tr>
+						<td colspan="2">내용</td>
+					</tr>
+					<tr>
+						<td colspan="2"><textarea name="boardcontent" id="boardcontent"><%=bContent%></textarea></td>
+					</tr>
+					<tr>
+						<td>글쓴이</td>
+						<td><input type="text" name="boardwriter" id="boardwriter" value="<%=bWriter%>" /></td>
+					</tr>
+					<tr>
+						<td>비밀번호</td>
+						<td><input type="password" name="boardpwd" id="boardpwd" value="<%=bPwd%>" /></td>
+					</tr>
+				</table>
+				<input type="hidden" value="<%=bNum%>" name="boardnum" /> 
+				<input type="submit" value="수정하기" />
+			</form>
+	</div>
+</div>
 </body>
 </html>
