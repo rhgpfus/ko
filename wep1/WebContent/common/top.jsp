@@ -16,14 +16,14 @@ if(login){
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/main.jsp">Project name</a>
+          <a class="navbar-brand" href="/main.jsp">메인화면가기</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/board/board_select.jsp">게시판가기</a></li>
             <li><a href="#about">유저정보가기</a></li>
             <li><a href="#contact">권한정보가기</a></li>
-            <li><a href="/user/login_true.jsp"><%=loginStr%></a></li>
+            <li><a href="/user/logout.jsp"><%=loginStr%></a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

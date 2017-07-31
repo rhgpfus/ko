@@ -6,7 +6,7 @@
 <%@ page import="com.test.DTO.UserInfo" %>
 
 <link rel="stylesheet" href="<%=rootPath%>/ui/signin.css"/>
-
+<body>
 <jsp:include page="/common/top.jsp" flush="false">
 	<jsp:param value="<%=login%>" name="login"/>
 </jsp:include>
@@ -23,9 +23,41 @@
 					Remember me
 				</label>
 			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Login
+			<button class="btn_global" type="button">Login
 				</button>
 		</form>
 
 	</div>
+	<script>
+	$("button.btn").click(function(){
+		var id = $("#id").val();
+		var pwd = $("#password").val();
+		var param = {};
+		param["id"] = id;
+		param["pwd"] = pwd;
+		param = JSON.stringify(param);
+		$.ajax({ 
+	        type     : "POST"
+	    ,   url      : "/user/login_true.jsp"
+	    ,   dataType : "json" 
+	    ,   beforeSend: function(xhr) {
+	        xhr.setRequestHeader("Accept", "application/json");
+	        xhr.setRequestHeader("Content-Type", "application/json");
+	    }
+	    ,   data     : param
+	    ,   success : function(result){
+	    	alert(result.msg);
+	    	if(result.login =="ok"){
+	    		location.href = "/main.jsp";
+	    	}
+	    }
+	    ,   error : function(xhr, status, e) {
+		    	alert("에러 : "+e);
+		},
+		done : function(e) {
+		}
+		});
+	});
+</script>
+</body>
 </html>

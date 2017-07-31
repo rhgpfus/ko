@@ -3,18 +3,17 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="com.test.common.DBConn" %>
 <%@ page import="com.test.DTO.UserInfo" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<%
-String id = request.getParameter("id");
-String pwd = request.getParameter("password");
-String result = "";
+<%@ page import="org.json.simple.JSONObject" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.google.gson.*" %>
 
+<%
+JSONObject j = new Gson().fromJson(request.getReader(), JSONObject.class);
+
+String id = (String)j.get("id");
+String pwd = (String)j.get("pwd");
+String result = "";
+String login = "false";
 if(id!=null && pwd!=null){
 	UserInfo ui = new UserInfo();
 	ui.setUserId(id);
@@ -40,6 +39,7 @@ if(id!=null && pwd!=null){
 			String hp3 = rs.getString("hp3");
 			if(userPwd.equals(ui.getUserPwd())){
 				result = "로그인에 성공하셨습니다.";
+				login = "ok";
 				session.setAttribute("userid", ui.getUserId());
 				session.setAttribute("username", userName);
 				session.setAttribute("age", age);
@@ -64,16 +64,14 @@ if(id!=null && pwd!=null){
 	if(result.equals("")){
 		result =  "그런 아이디 없다잖아!!";
 	}
-	out.println(result);
 }else{
 	// 세션 초기화
 	result = "로그아웃 되셨습니다.";
 	session.invalidate();
 }
+HashMap hm = new HashMap();
+hm.put("login",login);
+hm.put("msg",result);
+String json = new Gson().toJson(hm);
+out.write(json);
 %>
-<script>
-alert("<%=result%>");
-location.href="/main.jsp";
-</script>
-</body>
-</html>
