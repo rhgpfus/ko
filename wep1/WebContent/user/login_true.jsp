@@ -6,18 +6,20 @@
 <%@ page import="org.json.simple.JSONObject" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.google.gson.*" %>
+<%@ page import="java.io.*" %>
 
 <%
 JSONObject j = new Gson().fromJson(request.getReader(), JSONObject.class);
+String id = j.get("id").toString();
+String pwd = j.get("password").toString();
 
-String id = (String)j.get("id");
-String pwd = (String)j.get("pwd");
 String result = "";
-String login = "false";
-if(id!=null && pwd!=null){
+String login = "fasle";
+
+if(id != null && pwd != null){
 	UserInfo ui = new UserInfo();
 	ui.setUserId(id);
-	ui.setUserPwd(pwd);
+    ui.setUserPwd(pwd);
 
 	Connection con = null;
 	PreparedStatement ps = null;

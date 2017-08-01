@@ -5,7 +5,7 @@
 <%@ page import="com.test.common.DBConn" %>
 <%@ page import="com.test.DTO.BoardInfo" %>
 <body>
-<jsp:include page="/common/top.jsp" flush="fasle"></jsp:include>
+
 <div class="container">
       <div class="starter-template">
 <%
@@ -47,29 +47,30 @@
 
 <form method="get" action="<%=rootPath%>/board/board_update_ok.jsp" >
 				<table class='table table-bordered table-hover'>
-					<tr>
+					<tr style='color:#A6A6A6'>
 						<td>제목</td>
 						<td><input type="text" name="boardtitle" id="boardtitle"
 							value="<%=bTitle%>" /></td>
 					</tr>
-					<tr>
+					<tr style='color:#A6A6A6'>
 						<td colspan="2">내용</td>
 					</tr>
-					<tr>
+					<tr style='color:#A6A6A6'>
 						<td colspan="2"><textarea name="boardcontent" id="boardcontent"><%=bContent%></textarea></td>
 					</tr>
-					<tr>
+					<tr style='color:#A6A6A6'>
 						<td>글쓴이</td>
 						<td><input type="text" name="boardwriter" id="boardwriter" value="<%=bWriter%>" /></td>
 					</tr>
-					<tr>
+					<tr style='color:#A6A6A6'>
 						<td>비밀번호</td>
 						<td><input type="password" name="boardpwd" id="boardpwd" value="<%=bPwd%>" /></td>
 					</tr>
 				</table>
 				<input type="hidden" value="<%=bNum%>" name="boardnum" /> 
-				<input type="submit" value="수정하기" />
+				<input type="submit" style='color:#A6A6A6' value="수정하기" />
 			</form>
+			<%@ include file="/common/bottom.jsp"%>
 	</div>
 </div>
 </body>

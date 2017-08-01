@@ -21,7 +21,7 @@ String boardpwd = request.getParameter("boardpwd");
 int result = 0;
 String message = "";
 
-if(boardtitle!=null && boardcontent!=null && boardwriter!=null && boardpwd!=null){
+if(boardtitle!=null && boardpwd!=null && !boardtitle.equals("") && !boardpwd.equals("")){
 	BoardInfo bi = new BoardInfo();
 	bi.setBoardTitle(boardtitle);
 	bi.setBoardContent(boardcontent);

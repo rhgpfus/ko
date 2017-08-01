@@ -1,15 +1,9 @@
 <%@ include file="/common/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <link rel="stylesheet" href="<%=rootPath%>/ui/cover.css"/>
+<body>
 
-<title>고똥 세상에 온걸 환영해</title>
-
-	<link href="<%=rootPath%>/ui/cover.css" rel="stylesheet">
-	<jsp:include page="/common/top.jsp" flush="false">
-		<jsp:param value="<%=login%>" name="login"/>
-	</jsp:include>
-	<body>
-	
     <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
@@ -18,14 +12,21 @@
 
           <div class="masthead clearfix">
             <div class="inner">
-              
+             
+              <nav>
+                <ul class="nav masthead-nav">
+                  
+                </ul>
+              </nav>
             </div>
           </div>
 
           <div class="inner cover">
             <h1 class="cover-heading"><%=userId%>님 어서옵쇼</h1>
-            <p class="lead"></p>
-            
+            <p class="lead">으헤헤헤ㅔ헤헤헤헤헤</p>
+            <p class="lead">
+              
+            </p>
           </div>
 
           <div class="mastfoot">
@@ -39,5 +40,3 @@
       </div>
 
     </div>
- </body>
-</html>

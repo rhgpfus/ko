@@ -4,37 +4,31 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="com.test.common.DBConn" %>
 <%@ page import="com.test.DTO.UserInfo" %>
-
 <link rel="stylesheet" href="<%=rootPath%>/ui/signin.css"/>
 <body>
-<jsp:include page="/common/top.jsp" flush="false">
-	<jsp:param value="<%=login%>" name="login"/>
-</jsp:include>
 	<div class="container">
 		<form class="form-signin" action="<%=rootPath%>/user/login_true.jsp">
 			<h2 class="form-signin-heading">Please login</h2>
-			<label for="inputEmail" class="sr-only">Id</label> <input type="text"
-				id="id" name="id" class="form-control" placeholder="Id" required
-				autofocus> <label for="inputPassword" class="sr-only">Password</label>
-			<input type="password" id="password" name="password"
-				class="form-control" placeholder="Password" required>
+			<label for="inputEmail" class="sr-only">Id</label> 
+			<input type="text" id="id" name="id" class="form-control" placeholder="Id" required autofocus>
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
 			<div class="checkbox">
-				<label> <input type="checkbox" value="remember-me">
-					Remember me
+				<label> 
+					<input type="checkbox" value="remember-me">Remember me
 				</label>
 			</div>
-			<button class="btn_global" type="button">Login
-				</button>
+			<button id="btn" class="btn_global" type="button">Login</button>
 		</form>
 
 	</div>
 	<script>
-	$("button.btn").click(function(){
+	$("#btn").click(function(){
 		var id = $("#id").val();
 		var pwd = $("#password").val();
 		var param = {};
 		param["id"] = id;
-		param["pwd"] = pwd;
+		param["password"] = pwd;
 		param = JSON.stringify(param);
 		$.ajax({ 
 	        type     : "POST"
@@ -48,7 +42,10 @@
 	    ,   success : function(result){
 	    	alert(result.msg);
 	    	if(result.login =="ok"){
-	    		location.href = "/main.jsp";
+	    		location.href = "<%=rootPath%>/main.jsp";
+	    	}else{
+	    		$("#id").val("");
+	    		$("#password").val("");
 	    	}
 	    }
 	    ,   error : function(xhr, status, e) {
@@ -57,7 +54,10 @@
 		done : function(e) {
 		}
 		});
+		
 	});
 </script>
+
 </body>
+
 </html>

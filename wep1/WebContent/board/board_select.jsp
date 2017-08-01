@@ -4,10 +4,11 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="com.test.common.DBConn" %>
 <%@ page import="com.test.DTO.BoardInfo" %>
+
+<link rel="stylesheet" href="<%=rootPath%>/ui/cover.css"/>
+
 <body>
-<jsp:include page="/common/top.jsp" flush="fasle">
-	<jsp:param value="<%=login%>" name="login"/>
-</jsp:include>
+
 <script>
 function goBoard(boardnum){
 	location.href ="<%=rootPath%>/board/board_select_view.jsp?boardnum=" + boardnum;
@@ -49,7 +50,7 @@ try{
 	}
 	ResultSet rs = ps.executeQuery();
 	String tableStr="<table class='table table-bordered table-hover'>";
-	tableStr += "<tr>";
+	tableStr += "<tr style='color:#A6A6A6'>";
 	tableStr += "<td>번호</td>";
 	tableStr += "<td>제목</td>";
 	tableStr += "<td>작성자</td>";
@@ -58,7 +59,7 @@ try{
 	boolean existData = false;
 	while(rs.next()){
 		existData = true;
-		tableStr += "<tr>";
+		tableStr += "<tr style='color:#A6A6A6'>";
 		tableStr += "<td>"+rs.getInt("boardnum") + "</td>";
 		tableStr += "<td style='cursor:pointer' onclick='goBoard(" + rs.getInt("boardnum") + ")'>" + rs.getString("boardtitle") + "</td>";
 		tableStr += "<td>"+rs.getString("boardwriter") + "</td>";
@@ -70,7 +71,7 @@ try{
 		tableStr += "<td colspan='6' align='center'>검색결과가 없습니다.</td>";
 		tableStr += "</tr>";
 	}else{
-		tableStr += "<tr>";
+		tableStr += "<tr style='color:#A6A6A6'>";
 		tableStr += "<td colspan='6' align='center'>";
 		tableStr += "<select name='searchTarget' id='searchTarget'>";
 		tableStr += "<option value='boardtitle'>제목</option>";
@@ -95,9 +96,11 @@ try{
 	DBConn.closeCon();
 }
 %>
-<input type="button" value="게시글 작성" onclick="doBoardMove('boardInsert')"/>
-<input type="button" value="메인가기" onclick="doBoardMove('main')"/>
+	<button type="button" style="color:#4C4C4C" onclick="doMovePage('insertBoard')">게시글 작성</button>
+	<button type="button" style="color:#4C4C4C" onclick="doBoardMove('main')">메인가기</button>
+<%@ include file="/common/bottom.jsp"%>
 	</div>
 </div>
+
 </body>
 </html>

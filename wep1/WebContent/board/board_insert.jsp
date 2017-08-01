@@ -14,7 +14,7 @@ table tr td{width:200px;}
 </style>
 
 <body>
-<jsp:include page="/common/top.jsp" flush="fasle"></jsp:include>
+
 <div class="container">
       <div class="starter-template">
 <form action="/board/board_insert_ok.jsp">

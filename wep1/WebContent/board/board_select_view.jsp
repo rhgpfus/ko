@@ -5,9 +5,7 @@
 <%@ page import="com.test.common.DBConn" %>
 <%@ page import="com.test.DTO.BoardInfo" %>
 <body>
-<jsp:include page="/common/top.jsp" flush="false">
-	<jsp:param value="<%=login%>" name="login"/>
-</jsp:include>
+
 <div class="container">
       <div class="starter-template">
 <%
@@ -57,26 +55,27 @@
 %>
 
 <table class='table table-bordered table-hover'>
-<tr>
+<tr style='color:#A6A6A6'>
 <td>번호</td><td><%=boardNum%></td>
 </tr>
-<tr>
+<tr style='color:#A6A6A6'>
 <td>제목</td><td><%=boardTitle%></td>
 </tr>
-<tr>
+<tr style='color:#A6A6A6'>
 <td>내용</td><td><%=boardContent%></td>
 </tr>
-<tr>
+<tr style='color:#A6A6A6'>
 <td>글쓴이</td><td><%=boardWriter%></td>
 </tr>
-<tr>
+<tr style='color:#A6A6A6'>
 <td>생성일자</td><td><%=boardDate%></td>
 </tr>
 
 </table>
-<input type="button" value="수정" onclick="boardUpdate()"/> 
-<input type="button" value="삭제"onclick="deleteBoard()"/>
-<input type="button" value="게시판"onclick="doBoardMove('board')"/>
+<button type="button" onclick="boardUpdate()">수정</button> 
+<button type="button" onclick="deleteBoard()">삭제</button>
+<button type="button" onclick="doBoardMove('board')">게시판</button>
+
 <script>
 var boardSqlPwd = "<%=boardPwd%>";
 
@@ -105,6 +104,7 @@ function deleteBoard(){
 	}
 }
 </script>
+<%@ include file="/common/bottom.jsp"%>
 </div>
 </div>
 </body>

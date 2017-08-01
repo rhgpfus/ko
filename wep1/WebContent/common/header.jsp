@@ -38,15 +38,24 @@ if(init==null && !login){
 	defaultUrl = rootPath + "/user/login.jsp?init=1";
 	response.sendRedirect(defaultUrl);
 }
+String nowUrl = request.getRequestURI();
+String loginStr = "로그인";
+if(login){
+	loginStr = "로그아웃";
+}
 %>
 <script src="<%=rootPath%>/js/jquery-3.2.1.js"></script>
 <script src="<%=rootPath%>/ui/btsp3.7.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="<%=rootPath%>/ui/btsp3.7.7/css/bootstrap-theme.min.css"/>
 <link rel="stylesheet" href="<%=rootPath%>/ui/btsp3.7.7/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="<%=rootPath%>/ui/common.css"/>
+<link rel="stylesheet" href="<%=rootPath%>/ui/cover.css"/>
 <script>
 var rootPath = "<%=rootPath%>";
-
+$(document).ready(function(){
+	var nowUrl = "<%=nowUrl%>";
+	var obj = $("a[href='" + nowUrl + "']").parent().attr("class","active");
+})
 function doBoardMove(pageId,bNum){
 	var url = "<%=rootPath%>";
 	if(pageId=="board"){
@@ -61,3 +70,29 @@ function doBoardMove(pageId,bNum){
 	location.href = url;
 }
 </script>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="<%=rootPath%>/main.jsp">HOME</a>
+		</div>
+		<div id="navbar" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li id="m1"><a href="/board/board_select.jsp">게시판가기</a></li>
+				<li id="m2"><a href="/board/user_information.jsp">유저정보가기</a></li>
+				<li id="m3"><a href="#contact">권한정보가기</a></li>
+				<li><a href="/user/logout.jsp"><%=loginStr%></a></li>
+			</ul>
+		</div>
+		<!--/.nav-collapse -->
+	</div>
+</nav>
+
