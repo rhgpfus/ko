@@ -1,28 +1,25 @@
-
+<%@ include file="/common/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<script src="/js/jquery-3.2.1.js"></script>
-<script src="/ui/btsp3.7.7/js/bootstrap.min.js"></script>
-<input type="text" id="num1">
-<select id="op" name="op">
-	<option value="">선택</option>
-	<option value="+">+</option>
-	<option value="-">-</option>
-	<option value="*">*</option>
-	<option value="/">/</option>
-</select>
-<input type="text" id="num2">
-<input type="button" id="btn" value="계산">
-<input type="text" id="result">
 
-<input type="button" id="btn2" value="불러오기">
+<div class="container">
+		<table id="table" data-height="460"
+			class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th data-field="calumn"  class="text-center" style="color:#BDBDBD">번호</th>
+					<th data-field="num1"  class="text-center" style="color:#BDBDBD">숫자1</th>
+					<th data-field="num2"  class="text-center" style="color:#BDBDBD">숫자2</th>
+					<th data-field="op"  class="text-center" style="color:#BDBDBD">연산자</th>
+					<th data-field="result"  class="text-center" style="color:#BDBDBD">결과값</th>
+				</tr>
+			</thead>
+			<tbody id="result_tbody">
+			</tbody>
+		</table>
+	</div>
+연산자 : <input type="text" id="op"/>
+<input type="button" id="btn2" value="불러오기" style="color:#4C4C4C">
 <div id="result_div" class="container"></div>
 <script>
 $("#btn").click(function(){
@@ -30,7 +27,7 @@ $("#btn").click(function(){
 	var num2 = $("#num2").val();
 	var op = $("#op").val();
 	if(op==""){
-		alert("연산자를 선택하세요.")
+		alert("연산자를 선택하세요.");
 	}
 	var param = {};
 	param["num1"] = num1;
@@ -53,7 +50,8 @@ $("#btn").click(function(){
 	,	error : function(xhr, status, e){
 		alert("에러 : "+e);
 	},	
-	done : function(e) {
+	complete : function() {
+		//성공해도 실패해도 무조건 실행한다~~
 	}
 	});
 });
@@ -61,7 +59,6 @@ $("#btn2").click(function(){
 	var op = $("#op").val();
 	var param = {};
 	param["op"] = op;
-	
 	param = JSON.stringify(param);
 	$.ajax({
 		type : "POST"
@@ -72,29 +69,16 @@ $("#btn2").click(function(){
 		xhr.setRequestHeader("Content-Type", "application/json");
 	}
 	,	data : param
-	,	success : function(results){
-		var table = "<table border=1>";
-		table += "<tr><td>calumn</td><td>num1</td><td>op</td><td>num2</td><td>result</td></tr>";
-		for(var i=0, max=results.length;i<max;i++){
-			var result = results[i];
-			table += "<tr>";
-			table += "<td>" + result.calumn + "</td>";
-			table += "<td>" + result.num1 + "</td>";
-			table += "<td>" + result.op + "</td>";
-			table += "<td>" + result.num2 + "</td>";
-			table += "<td>" + result.result + "</td>";
-			table += "</tr>";
-		} 
-		table += "</table>";
-		$("#result_div").html(table);
+	,	success : function(result){
+		 	$('#table').bootstrapTable({
+	            data: result
+	        });
 	}
 	,	error : function(xhr, status, e){
 		alert("에러 : "+e);
 	},	
-	done : function(e) {
+	complete : function() {
 	}
 	});
 });
 </script>
-</body>
-</html>

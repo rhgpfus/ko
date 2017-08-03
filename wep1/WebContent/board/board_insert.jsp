@@ -20,30 +20,30 @@ table tr td{width:200px;}
 <form action="/board/board_insert_ok.jsp">
 <div id="bd_div">
 <table class='table table-bordered table-hover'>
-	<tr align="center" id="dd">
+	<tr align="center" id="dd" style="color:#A6A6A6">
 	 	<td colspan="2"><p>게시판 입력</p></td>
 	 </tr>
-	<tr align="center" id="title">
+	<tr align="center" id="title" style="color:#A6A6A6">
 		<td>제목 : </td>
 		<td><input type="text" id="boardtitle" name="boardtitle"/></td>
 	</tr>
-	<tr align="center" id="bb">
+	<tr align="center" id="bb" style="color:#A6A6A6">
 		<td colspan="2">내용</td>
 	</tr>
-	<tr align="center" id="bb">
+	<tr align="center" id="bb" style="color:#A6A6A6">
 		<td colspan="2"><textarea id="boardcontent" name="boardcontent"></textarea></td>
 	</tr>
-	<tr align="center">
+	<tr align="center" style="color:#A6A6A6">
 		<td>글쓴이 : </td>
 		<td><input type="text" id="boardwriter" name="boardwriter"/></td>
 	</tr>
-	<tr align="center">
+	<tr align="center" style="color:#A6A6A6">
 		<td>비밀번호 : </td>
 		<td><input type="password" id="boardpwd" name="boardpwd"/></td>
 	</tr>
 	
 </table>
-<input type="button" value="메인가기" onclick="doBoardMove('main')"/>
+<input type="button" value="게시판가기" onclick="doBoardMove('board')"/>
 <input type="submit" value="글쓰기"/>
 </div>
 </form>	

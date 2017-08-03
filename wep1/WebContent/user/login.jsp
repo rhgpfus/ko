@@ -12,7 +12,7 @@
 			<label for="inputEmail" class="sr-only">Id</label> 
 			<input type="text" id="id" name="id" class="form-control" placeholder="Id" required autofocus>
 			<label for="inputPassword" class="sr-only">Password</label>
-			<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+			<input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required">
 			<div class="checkbox">
 				<label> 
 					<input type="checkbox" value="remember-me">Remember me

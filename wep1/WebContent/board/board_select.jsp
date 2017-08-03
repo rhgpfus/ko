@@ -96,7 +96,7 @@ try{
 	DBConn.closeCon();
 }
 %>
-	<button type="button" style="color:#4C4C4C" onclick="doMovePage('insertBoard')">게시글 작성</button>
+	<button type="button" style="color:#4C4C4C" onclick="doBoardMove('boardInsert')">게시글 작성</button>
 	<button type="button" style="color:#4C4C4C" onclick="doBoardMove('main')">메인가기</button>
 <%@ include file="/common/bottom.jsp"%>
 	</div>
