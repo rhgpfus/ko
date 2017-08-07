@@ -33,6 +33,7 @@
 <script>
 $(document).ready(function(){
 	var params = {};
+	params[""]
 	params["nowPage"] = "3";
 	params = JSON.stringify(params);
 	$.ajax({
@@ -66,13 +67,15 @@ $(document).ready(function(){
 			if(i==pageInfo.nowPage){
 				pageStr += "<li class='active'><a>" + i + "</a></li>";
 			}else{
-				pageStr += "<li><a>" + i + "</a></li>";
+				pageStr += "<li><a onclick='" + i + "()' id='" + i + "'>" + i + "</a></li>";
 			}
 		}
 		pageStr += "<li><a>▶</a></li>";
 		pageStr += "<li><a>▶▶</a></li>";
 		
 		$("#page").html(pageStr);
+		$("#i").
+		
 		for(var i=0,max=viList.length;i<max;i++){  //List안에있는 HashMap<String,String>을 풀어서 가져온다.
 			var list = result[i];
 			$("#s_vendor").append("<option value='" + viList[i].vinum + "'>" + viList[i].viname + "</option>");
