@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  <body onload="printClock()">  
-          <div class="mastfoot">
-            <div class="inner">
-           	  <div style="border:1px none; left:54%; width:600px; height:35px; line-height:35px; color:#666; font-size:30px;" id="clock"></div>
-           	  <p>Cover template for <a href="https://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-           	</div>
-          </div>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<body>
+<body onload="printClock()">
+	<div style="border:1px solid #dedede; width:600px; height:250px; line-height:250px; color:#666;font-size:100px; text-align:center;" id="clock">
+	</div>
 </body>
+
 <script>
+
 function printClock() {
     
     var clock = document.getElementById("clock");            // 출력할 장소 선택
@@ -27,12 +28,11 @@ function printClock() {
     if(currentSeconds >= 50){// 50초 이상일 때 색을 변환해 준다.
        currentSeconds = '<span style="color:#de1951;">'+currentSeconds+'</span>'
     }
-    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:20px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
+    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:50px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
     
-    setTimeout("printClock()",1000);   
-    
-    // 1초마다 printClock() 함수 호출
+    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
 }
+
 function addZeros(num, digit) { // 자릿수 맞춰주기
 	  var zero = '';
 	  num = num.toString();
@@ -44,3 +44,4 @@ function addZeros(num, digit) { // 자릿수 맞춰주기
 	  return zero + num;
 }
 </script>
+

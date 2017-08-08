@@ -19,3 +19,8 @@ body {
 button{
 	color:#4C4C4C;
 }
+ul[class='pagination']>li>a:hover{
+	background-color:#5D5D5D;
+	color:#747474;
+	cursor:pointer;
+}

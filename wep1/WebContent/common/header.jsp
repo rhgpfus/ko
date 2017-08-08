@@ -43,7 +43,7 @@ String loginStr = "로그인";
 if(login){
 	loginStr = "로그아웃";
 }
-String version = "1.2";
+String version = "1.3.2";
 %>
 <script src="<%=rootPath%>/js/jquery-3.2.1.js?version=<%=version%>"></script>
 <script src="<%=rootPath%>/ui/btsp3.7.7/js/bootstrap.min.js?version=<%=version%>"></script>
@@ -55,6 +55,26 @@ String version = "1.2";
 <link rel="stylesheet" href="<%=rootPath%>/ui/btsp3.7.7/css/bootstrap-table.css?version=<%=version%>"/>
 
 <script>
+var sBlockStr = "<li><a>◀◀</a></li>";
+sBlockStr += "<li><a>◀◁</a></li>";
+sBlockStr += "<li><a>◀</a></li>";
+var eBlockStr = "<li><a>▶</a></li>";
+eBlockStr += "<li><a>▷▶</a></li>";
+eBlockStr += "<li><a>▶▶</a></li>";
+
+function setPagination(sNum, eNum, nPage, objId){
+	var pageStr = sBlockStr;
+	for(var i=sNum, max=eNum;i<=max;i++){
+		if(i==nPage){
+			pageStr += "<li class='active'><a>" + i + "</a></li>";
+		}else{
+			pageStr += "<li><a>" + i + "</a></li>";
+		}
+	}
+	pageStr += eBlockStr;
+	$("#" + objId).html(pageStr);
+}
+
 var rootPath = "<%=rootPath%>";
 $(document).ready(function(){
 	var nowUrl = "<%=nowUrl%>";
@@ -72,6 +92,32 @@ function doBoardMove(pageId,bNum){
 		url += rootPath + "/board/board_update.jsp?boardnum=" + bNum;
 	}
 	location.href = url;
+}
+
+function alertOp(){
+	alert($("#op").val());
+}
+
+function movingPage(pParams, pUrl, pCallBackFunc){
+	var params = JSON.stringify(pParams);
+	$.ajax({ 
+	//j쿼리의 에이작스를 호출
+			type     : "POST"
+	    ,   url      : pUrl
+	    ,   dataType : "json" 
+	    //받는 데이터 타입.
+	    ,   beforeSend: function(xhr) {
+	        xhr.setRequestHeader("Accept", "application/json");
+	        xhr.setRequestHeader("Content-Type", "application/json");
+	    }
+	    ,   data     : params
+	    ,   success : pCallBackFunc
+	    ,   error : function(xhr, status, e) {
+		    	alert("에러 : "+e);
+		},
+		complete  : function() {
+		}
+	});
 }
 </script>
 
@@ -96,7 +142,7 @@ function doBoardMove(pageId,bNum){
 				<li><a href="/user/logout.jsp"><%=loginStr%></a></li>
 			</ul>
 		</div>
-		<!--/.nav-collapse -->
+		
 	</div>
 </nav>
 

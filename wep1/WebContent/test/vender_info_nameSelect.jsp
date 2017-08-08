@@ -16,9 +16,10 @@
 int rowCnt = 10;
 int nowPage = 1;
 int blockCnt = 10;
-int totalPageCtn = 0;
+int totalPageCnt = 0;
 int totalBlockCnt = 0;
 int totalCnt = 0;
+
 
 Gson g = new Gson();
 HashMap<String,String> hm = g.fromJson(request.getReader(), HashMap.class);
@@ -51,23 +52,22 @@ try{
 		System.out.println("테이터 로우 개수:"+ totalCnt);
 	}
 	if(totalCnt!=0){
-		int mod = totalCnt%rowCnt;
-		totalPageCtn = totalCnt/rowCnt;
+		int mod = totalCnt % rowCnt;
+		totalPageCnt = totalCnt / rowCnt;
 		if(mod!=0){
-			totalPageCtn +=1;
+			totalPageCnt +=1;
 		}
 	}
 	
-	if(totalPageCtn!=0){
-		int mod = totalPageCtn%blockCnt;
-		totalBlockCnt = totalPageCtn/blockCnt;
+	if(totalPageCnt!=0){
+		int mod = totalPageCnt % blockCnt;
+		totalBlockCnt = totalPageCnt / blockCnt;
 		if(mod!=0){
 			totalBlockCnt +=1;
 		}
 	}
 	
-	
-	System.out.println("총 페이지 개수:" + totalPageCtn);
+	System.out.println("총 페이지 개수:" + totalPageCnt);
 	System.out.println("블럭 개수(한 화면에 10개씩):" + totalBlockCnt);
 	
 	sql = "select gi.ginum,gi.giname,gi.gidesc,vi.vinum,vi.viname from goods_info as gi,vender_info as vi where gi.vinum=vi.vinum";
@@ -97,7 +97,7 @@ try{
 }
 HashMap<String,Integer> pageInfo = new HashMap<String,Integer>();
 pageInfo.put("nowPage",nowPage);
-pageInfo.put("totalPageCtn",totalPageCtn);
+pageInfo.put("totalPageCnt",totalPageCnt);
 pageInfo.put("totalBlockCnt",totalBlockCnt);
 pageInfo.put("blockCnt",blockCnt);
 pageInfo.put("totalCnt",totalCnt);
@@ -106,7 +106,7 @@ HashMap resultHm = new HashMap();
 resultHm.put("viList", viList);
 resultHm.put("giList", giList);
 resultHm.put("pageInfo", pageInfo);
+
 String json = g.toJson(resultHm);
-System.out.println(json);
 out.print(json);
 %>
