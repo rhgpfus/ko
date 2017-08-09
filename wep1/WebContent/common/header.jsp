@@ -55,15 +55,24 @@ String version = "1.3.2";
 <link rel="stylesheet" href="<%=rootPath%>/ui/btsp3.7.7/css/bootstrap-table.css?version=<%=version%>"/>
 
 <script>
-var sBlockStr = "<li><a>◀◀</a></li>";
-sBlockStr += "<li><a>◀◁</a></li>";
-sBlockStr += "<li><a>◀</a></li>";
-var eBlockStr = "<li><a>▶</a></li>";
-eBlockStr += "<li><a>▷▶</a></li>";
-eBlockStr += "<li><a>▶▶</a></li>";
+Number.prototype.equals = function(obj){
+	if(obj instanceof Number){
+		return this.toString() == obj.toString();
+	}
+	return this==obj;
+}
 
-function setPagination(sNum, eNum, nPage, objId){
-	var pageStr = sBlockStr;
+function setPagination(sNum, eNum, nPage, nTotal, objId){
+	var pageStr = "";
+	if(nPage==1){
+		pageStr += "<li class='disabled'><a>◀◀</a></li>";
+		pageStr += "<li class='disabled'><a>◀◁</a></li>";
+		pageStr += "<li class='disabled'><a>◀</a></li>";
+	}else{ 
+		pageStr += "<li><a>◀◀</a></li>";
+		pageStr += "<li><a>◀◁</a></li>";
+		pageStr += "<li><a>◀</a></li>";
+	}
 	for(var i=sNum, max=eNum;i<=max;i++){
 		if(i==nPage){
 			pageStr += "<li class='active'><a>" + i + "</a></li>";
@@ -71,7 +80,15 @@ function setPagination(sNum, eNum, nPage, objId){
 			pageStr += "<li><a>" + i + "</a></li>";
 		}
 	}
-	pageStr += eBlockStr;
+	if(nPage==nTotal){
+		pageStr += "<li class='disabled'><a>▶</a></li>";
+		pageStr += "<li class='disabled'><a>▷▶</a></li>";
+		pageStr += "<li class='disabled'><a>▶▶</a></li>";
+	}else{ 
+		pageStr += "<li><a>▶</a></li>";
+		pageStr += "<li><a>▷▶</a></li>";
+		pageStr += "<li><a>▶▶</a></li>";
+	}
 	$("#" + objId).html(pageStr);
 }
 

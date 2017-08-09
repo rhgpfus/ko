@@ -20,7 +20,6 @@ int totalPageCnt = 0;
 int totalBlockCnt = 0;
 int totalCnt = 0;
 
-
 Gson g = new Gson();
 HashMap<String,String> hm = g.fromJson(request.getReader(), HashMap.class);
 if(hm!=null && hm.get("nowPage")!=null){

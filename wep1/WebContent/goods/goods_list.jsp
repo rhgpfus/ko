@@ -6,11 +6,11 @@
     	<table id="table" data-height="460" class="table table-bordered table-nover">
     		<thead>
     			<tr style="color:#BDBDBD">
-    				<th data-field="ginum" class="text-center">사원번호</th>
-    				<th data-field="giname" class="text-center">사원이름</th>
-    				<th data-field="gidesc" class="text-center">사원소개</th>
-    				<th data-field="vinum" class="text-center">회사번호</th>
-    				<th data-field="viname" class="text-center">회사이름</th>
+    				<th data-field="giNum" class="text-center">사원번호</th>
+    				<th data-field="giName" class="text-center">사원이름</th>
+    				<th data-field="giDesc" class="text-center">사원소개</th>
+    				<th data-field="viNum" class="text-center">회사번호</th>
+    				<th data-field="viName" class="text-center">회사이름</th>
     			</tr>
     		</thead>
     		<tbody id="result_tbody"></tbody>
@@ -36,29 +36,7 @@ var thisBlockCnt = 0;
 var thisNowPage = 0;
 var thisTotalPage = 0;
 function callback(results){
-	var vendorList = results.viList;
-	var goodsList = results.giList;
-	var pageInfo = results.pageInfo;
-	
-	var blockCnt = new Number(pageInfo.blockCnt);
-	thisBlockCnt = blockCnt;
-	var nowPage= new Number(pageInfo.nowPage);
-	thisNowPage = nowPage;
-	var startBlock = Math.floor((nowPage-1)/blockCnt) * 10+1;
-	var endBlock = startBlock+blockCnt-1;
-	var totalPageCnt = new Number(pageInfo.totalPageCnt);
-	thisTotalPage = totalPageCnt;
-	if(endBlock>totalPageCnt){
-		endBlock = totalPageCnt;
-	}
-	
-	setPagination(startBlock, endBlock, pageInfo.nowPage, totalPageCnt, "page");
-	var optionStr = "";
-	for(var i=0, max=vendorList.length;i<max;i++){
-		optionStr += "<option value='" + vendorList[i].vinum + "'>"+vendorList[i].viname +"</option>";
-	}
-	$("#s_vendor").html(optionStr);
-	//이름을 받아와서 html로 select 옵션에 넣어준다.
+	var goodsList = results;
 	
     $('#table').bootstrapTable('destroy');
     $('#table').bootstrapTable({
@@ -67,10 +45,12 @@ function callback(results){
     setEvent();
 }
 $(document).ready(function(){
+	var page = {};
+	page["nowPage"] = "1";
 	var params = {};
-	params["nowPage"] = "1";   
-	//params.nowPage는 1이라는 해쉬맵 생성.
-	movingPage(params, "/test/vender_info_nameSelect.jsp", callback);
+	params["page"] = page;
+	params["command"] = "list";
+	movingPage(params, "/list.goods", callback);
 });
 
 function setEvent(){
@@ -101,6 +81,7 @@ function setEvent(){
 		var params = {};
 		params["nowPage"] = "" + movePageNum;
 		//ul이 클래스가 pagination이면서 li안에 a인 값.
+		params["command"] = "list";
 		movingPage(params, "/test/vender_info_nameSelect.jsp", callback);
 	})
 }

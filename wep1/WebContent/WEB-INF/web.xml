@@ -30,13 +30,14 @@
     <servlet-name>CommentServlet</servlet-name>
     <url-pattern>*.comment</url-pattern>
   </servlet-mapping>
+  
    <servlet>
-    <servlet-name>CalServlet</servlet-name>
-    <servlet-class>com.test.servlet.CalServlet</servlet-class>
+    <servlet-name>GoodsServlet</servlet-name>
+    <servlet-class>com.test.servlet.GoodsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>CalServlet</servlet-name>
-    <url-pattern>*.cal</url-pattern>
+    <servlet-name>GoodsServlet</servlet-name>
+    <url-pattern>*.goods</url-pattern>
   </servlet-mapping>
   
   <filter>
