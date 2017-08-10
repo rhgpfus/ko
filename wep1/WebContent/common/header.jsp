@@ -62,7 +62,11 @@ Number.prototype.equals = function(obj){
 	return this==obj;
 }
 
-function setPagination(sNum, eNum, nPage, nTotal, objId){
+function setPagination(pageInfo, objId){
+	var sNum = pageInfo.startBlock;
+	var eNum = pageInfo.endBlock;
+	var nPage = pageInfo.nowPage
+	var nTotal = pageInfo.totalPageCnt;
 	var pageStr = "";
 	if(nPage==1){
 		pageStr += "<li class='disabled'><a>◀◀</a></li>";
@@ -80,7 +84,7 @@ function setPagination(sNum, eNum, nPage, nTotal, objId){
 			pageStr += "<li><a>" + i + "</a></li>";
 		}
 	}
-	if(nPage==nTotal){
+	if(nPage.equals(nTotal)){
 		pageStr += "<li class='disabled'><a>▶</a></li>";
 		pageStr += "<li class='disabled'><a>▷▶</a></li>";
 		pageStr += "<li class='disabled'><a>▶▶</a></li>";
@@ -90,6 +94,41 @@ function setPagination(sNum, eNum, nPage, nTotal, objId){
 		pageStr += "<li><a>▶▶</a></li>";
 	}
 	$("#" + objId).html(pageStr);
+}
+
+function setEvent(pageInfo){
+	$("ul[class='pagination']>li:not([class='disabled'])>a").bind("click",function(){
+		var thisNowPage = pageInfo.nowPage;
+		var movePageNum = new Number(this.innerHTML);
+		if(isNaN(movePageNum)){
+			if(this.innerHTML=="◀"){
+				thisNowPage -= 1;
+			}else if(this.innerHTML=="◀◁"){
+				thisNowPage -= pageInfo.blockCnt;
+			}else if(this.innerHTML=="◀◀"){
+				thisNowPage = 1;
+			}else if(this.innerHTML=="▶"){
+				thisNowPage += 1;
+			}else if(this.innerHTML=="▷▶"){
+				thisNowPage += pageInfo.blockCnt;
+			}else if(this.innerHTML=="▶▶"){
+				thisNowPage = pageInfo.totalPageCnt;
+			}
+			if(thisNowPage<=0){
+				thisNowPage = 1;
+			}else if(thisNowPage>pageInfo.totalPageCnt){
+				thisNowPage = pageInfo.totalPageCnt;
+			}
+			movePageNum = thisNowPage;
+		}
+		var page = {};
+		page["nowPage"] = "" + movePageNum;
+		//ul이 클래스가 pagination이면서 li안에 a인 값.
+		var params = {};
+		params["page"] = page;
+		params["command"] = "list";
+		movingPage(params, "/list.goods", callback);
+	})
 }
 
 var rootPath = "<%=rootPath%>";

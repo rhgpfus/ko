@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.test.DTO.BoardInfo;
 import com.test.DTO.GoodsInfo;
+import com.test.DTO.Page;
 import com.test.service.BoardService;
 import com.test.service.GoodsService;
 
@@ -39,8 +41,15 @@ public class GoodsServlet extends HttpServlet{
 		System.out.println(goods);
 		String command = goods.getCommand();
 		if(command.equals("list")){
+			int totalCnt = gs.getTotalCount(goods);
+			Page page = goods.getPage();
+			page.setTotalCnt(totalCnt);
 			List<GoodsInfo> goodsList = gs.selectGoods(goods);
-			String jsonStr = g.toJson(goodsList);
+			HashMap resultMap = new HashMap();
+			resultMap.put("page", page);
+	    	resultMap.put("list", goodsList);
+			String jsonStr = g.toJson(resultMap);
+			System.out.println(jsonStr);
 			doProcess(response, jsonStr);
 		}
 //		Set<String> keys = goods.keySet();

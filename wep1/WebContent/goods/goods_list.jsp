@@ -36,13 +36,23 @@ var thisBlockCnt = 0;
 var thisNowPage = 0;
 var thisTotalPage = 0;
 function callback(results){
-	var goodsList = results;
+	var goodsList = results.list;
+	var pageInfo = results.page;
+	setPagination(pageInfo, "page");
+	setEvent(pageInfo);
 	
+	setPagination(startBlock, endBlock, pageInfo.nowPage, totalPageCnt, "page");
+	var optionStr = "";
+	for(var i=0, max=vendorList.length;i<max;i++){
+		optionStr += "<option value='" + vendorList[i].vinum + "'>"+vendorList[i].viname +"</option>";
+	}
+	$("#s_vendor").html(optionStr);
+	
+	//페이지받아와서 뿌려주기,setPagination 실행해서 버튼 받아오기. 
     $('#table').bootstrapTable('destroy');
     $('#table').bootstrapTable({
         data: goodsList
     });
-    setEvent();
 }
 $(document).ready(function(){
 	var page = {};
@@ -50,42 +60,9 @@ $(document).ready(function(){
 	var params = {};
 	params["page"] = page;
 	params["command"] = "list";
+	
 	movingPage(params, "/list.goods", callback);
 });
-
-function setEvent(){
-	$("ul[class='pagination']>li:not([class='disabled'])>a").bind("click",function(){
-		var movePageNum = new Number(this.innerHTML);
-		if(isNaN(movePageNum)){
-			if(this.innerHTML=="◀"){
-				thisNowPage -= 1;
-			}else if(this.innerHTML=="◀◁"){
-				thisNowPage -= thisBlockCnt;
-			}else if(this.innerHTML=="◀◀"){
-				thisNowPage = 1;
-			}else if(this.innerHTML=="▶"){
-				thisNowPage += 1;
-			}else if(this.innerHTML=="▷▶"){
-				thisNowPage += thisBlockCnt;
-			}else if(this.innerHTML=="▶▶"){
-				thisNowPage = thisTotalPage;
-			}
-			if(thisNowPage<=0){
-				thisNowPage = 1;
-			}else if(thisNowPage>thisTotalPage){
-				thisNowPage = thisTotalPage;
-			}
-			movePageNum = thisNowPage;
-		}
-		
-		var params = {};
-		params["nowPage"] = "" + movePageNum;
-		//ul이 클래스가 pagination이면서 li안에 a인 값.
-		params["command"] = "list";
-		movingPage(params, "/test/vender_info_nameSelect.jsp", callback);
-	})
-}
-
 
 </script>
 

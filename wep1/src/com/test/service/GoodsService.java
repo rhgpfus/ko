@@ -13,10 +13,13 @@ import org.json.simple.JSONObject;
 
 import com.google.gson.Gson;
 import com.test.DTO.GoodsInfo;
+import com.test.DTO.Page;
 import com.test.common.DBConn;
+
 
 public class GoodsService {
 	public List<GoodsInfo> selectGoods(GoodsInfo gi){
+		
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -24,9 +27,15 @@ public class GoodsService {
 			String sql = "select gi.ginum,gi.giname,gi.gidesc,vi.vinum,vi.viname"
 					+ " from goods_info as gi,vender_info as vi"
 			 		+ " where vi.vinum=gi.vinum"
-			 		+ " order by gi.ginum";  
+			 		+ " order by gi.ginum"
+					+ " limit ?,?";
+			Page page = gi.getPage();
 			con = DBConn.getCon();
 			ps = con.prepareStatement(sql);
+			ps.setInt(1, page.getStartRow());
+			System.out.println(page.getStartRow());
+			ps.setInt(2, page.getRowCnt());
+			System.out.println(page.getRowCnt());
 			rs = ps.executeQuery();
 			List<GoodsInfo> goodsList = new ArrayList<GoodsInfo>();
 			while(rs.next()){
@@ -39,6 +48,7 @@ public class GoodsService {
 				goodsList.add(gi2);
 			}
 			con.commit();
+			
 			return goodsList;
 		}catch(Exception e){
 			try{
@@ -59,5 +69,34 @@ public class GoodsService {
 		}
 		return null;
 	}
+	public int getTotalCount(GoodsInfo gi){
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			String sql = "select count(1) "
+					+ " from goods_info as gi, vender_info as vi "
+					+ " where gi.vinum=vi.vinum";
+			con = DBConn.getCon();
+			ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			List<GoodsInfo> goodsList = new ArrayList<GoodsInfo>();
+			while(rs.next()){
+				return rs.getInt(1);
+			}
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				ps.close();
+				DBConn.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
 }
+
 
