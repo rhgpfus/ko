@@ -1,5 +1,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
+<!-- include나 page는 가져와서 해석해준다. jsp파일만 적을수있다. -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -45,6 +46,12 @@ if(login){
 }
 String version = "1.3.2";
 %>
+<!--
+script는 js파일을 적는다. 
+link는 css파일을 적는다.
+얘네는 불러와서 읽어주기만 한다.
+ -->
+<script src="<%=rootPath%>/ui/common.js?version=<%=version%>"></script>  
 <script src="<%=rootPath%>/js/jquery-3.2.1.js?version=<%=version%>"></script>
 <script src="<%=rootPath%>/ui/btsp3.7.7/js/bootstrap.min.js?version=<%=version%>"></script>
 <script src="<%=rootPath%>/ui/btsp3.7.7/js/bootstrap-table.js?version=<%=version%>"></script>
@@ -55,82 +62,6 @@ String version = "1.3.2";
 <link rel="stylesheet" href="<%=rootPath%>/ui/btsp3.7.7/css/bootstrap-table.css?version=<%=version%>"/>
 
 <script>
-Number.prototype.equals = function(obj){
-	if(obj instanceof Number){
-		return this.toString() == obj.toString();
-	}
-	return this==obj;
-}
-
-function setPagination(pageInfo, objId){
-	var sNum = pageInfo.startBlock;
-	var eNum = pageInfo.endBlock;
-	var nPage = pageInfo.nowPage
-	var nTotal = pageInfo.totalPageCnt;
-	var pageStr = "";
-	if(nPage==1){
-		pageStr += "<li class='disabled'><a>◀◀</a></li>";
-		pageStr += "<li class='disabled'><a>◀◁</a></li>";
-		pageStr += "<li class='disabled'><a>◀</a></li>";
-	}else{ 
-		pageStr += "<li><a>◀◀</a></li>";
-		pageStr += "<li><a>◀◁</a></li>";
-		pageStr += "<li><a>◀</a></li>";
-	}
-	for(var i=sNum, max=eNum;i<=max;i++){
-		if(i==nPage){
-			pageStr += "<li class='active'><a>" + i + "</a></li>";
-		}else{
-			pageStr += "<li><a>" + i + "</a></li>";
-		}
-	}
-	if(nPage.equals(nTotal)){
-		pageStr += "<li class='disabled'><a>▶</a></li>";
-		pageStr += "<li class='disabled'><a>▷▶</a></li>";
-		pageStr += "<li class='disabled'><a>▶▶</a></li>";
-	}else{ 
-		pageStr += "<li><a>▶</a></li>";
-		pageStr += "<li><a>▷▶</a></li>";
-		pageStr += "<li><a>▶▶</a></li>";
-	}
-	$("#" + objId).html(pageStr);
-}
-
-function setEvent(pageInfo){
-	$("ul[class='pagination']>li:not([class='disabled'])>a").bind("click",function(){
-		var thisNowPage = pageInfo.nowPage;
-		var movePageNum = new Number(this.innerHTML);
-		if(isNaN(movePageNum)){
-			if(this.innerHTML=="◀"){
-				thisNowPage -= 1;
-			}else if(this.innerHTML=="◀◁"){
-				thisNowPage -= pageInfo.blockCnt;
-			}else if(this.innerHTML=="◀◀"){
-				thisNowPage = 1;
-			}else if(this.innerHTML=="▶"){
-				thisNowPage += 1;
-			}else if(this.innerHTML=="▷▶"){
-				thisNowPage += pageInfo.blockCnt;
-			}else if(this.innerHTML=="▶▶"){
-				thisNowPage = pageInfo.totalPageCnt;
-			}
-			if(thisNowPage<=0){
-				thisNowPage = 1;
-			}else if(thisNowPage>pageInfo.totalPageCnt){
-				thisNowPage = pageInfo.totalPageCnt;
-			}
-			movePageNum = thisNowPage;
-		}
-		var page = {};
-		page["nowPage"] = "" + movePageNum;
-		//ul이 클래스가 pagination이면서 li안에 a인 값.
-		var params = {};
-		params["page"] = page;
-		params["command"] = "list";
-		movingPage(params, "/list.goods", callback);
-	})
-}
-
 var rootPath = "<%=rootPath%>";
 $(document).ready(function(){
 	var nowUrl = "<%=nowUrl%>";
@@ -154,27 +85,7 @@ function alertOp(){
 	alert($("#op").val());
 }
 
-function movingPage(pParams, pUrl, pCallBackFunc){
-	var params = JSON.stringify(pParams);
-	$.ajax({ 
-	//j쿼리의 에이작스를 호출
-			type     : "POST"
-	    ,   url      : pUrl
-	    ,   dataType : "json" 
-	    //받는 데이터 타입.
-	    ,   beforeSend: function(xhr) {
-	        xhr.setRequestHeader("Accept", "application/json");
-	        xhr.setRequestHeader("Content-Type", "application/json");
-	    }
-	    ,   data     : params
-	    ,   success : pCallBackFunc
-	    ,   error : function(xhr, status, e) {
-		    	alert("에러 : "+e);
-		},
-		complete  : function() {
-		}
-	});
-}
+
 </script>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">

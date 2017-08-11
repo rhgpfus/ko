@@ -1,5 +1,5 @@
 <%@ include file="/common/header.jsp"%>
-<%@ include file="/common/bottom.jsp"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <div class="container">
@@ -20,34 +20,53 @@
 	<ul class="pagination" id="page">
 	</ul>
 </div>
-<select id="s_vendor" style="color:#BDBDBD">
-<option value="" >회사선택</option>
+<select id="s_vender" style="color:#BDBDBD">
 </select> 
-<select id="s_goods" style="color:#BDBDBD">
-<option value="" >선택</option>
-<option value="ginum" >사원번호</option>
-<option value="giname" >사원이름</option>
-</select>
-<input type="text" id="ginum" style="color:#BDBDBD"/>
-<input type="button" id="select_vi" value="정보보기" style="color:#BDBDBD"/>
+<label>사원이름 : </label> <input type="text" id="giName" /> 
+
+<input type="button" id="search_Goods" value="검색" style="color:#BDBDBD"/>
 <div id="result_div" class="container"></div>
 <script>
-var thisBlockCnt = 0;
-var thisNowPage = 0;
-var thisTotalPage = 0;
-function callback(results){
-	var goodsList = results.list;
-	var pageInfo = results.page;
-	setPagination(pageInfo, "page");
-	setEvent(pageInfo);
-	
-	setPagination(startBlock, endBlock, pageInfo.nowPage, totalPageCnt, "page");
-	var optionStr = "";
-	for(var i=0, max=vendorList.length;i<max;i++){
-		optionStr += "<option value='" + vendorList[i].vinum + "'>"+vendorList[i].viname +"</option>";
+
+var pageInfo = {};
+$("#search_Goods").click(function(){
+	var giName = $("#giName").val().trim();
+	var viNum = $("#s_vender").val().trim();
+	if(giName=="" && viNum==""){
+		alert("회사 선택이나 제품명을 입력해주세요.");
+		return;
 	}
-	$("#s_vendor").html(optionStr);
+	var params = {};
+	if(giName!=""){
+		params["giName"] = giName;
+	}
+	if(viNum!=""){
+		params["viNum"] = viNum;
+	}
+	params["command"] = "list";
+	var page = {};
+	page["nowPage"] = "1";
+	params["page"] = page;
+	movePageWithAjax(params, "/list.goods", callback);
+});
+
+function callback(results){
+	var venderList = results.viList;
+	var goodsList = results.giList;
+	var pageInfo = results.page;
 	
+	var optionStr = "<option value='' >회사선택</option>";
+	for(var i=0, max=venderList.length;i<max;i++){
+		var vendor = vendorList[i];
+		var optionStr = "";
+		if(search.viNum==vendor.viNum){
+			selectStr = "selected";
+		}
+		optionStr += "<option value='" + venderList[i].viNum + "'>"+venderList[i].viName +"</option>";
+	}
+	$("#s_vender").html(optionStr);
+	makePagination(pageInfo, "page");
+	setEvent(pageInfo,"/list.goods");
 	//페이지받아와서 뿌려주기,setPagination 실행해서 버튼 받아오기. 
     $('#table').bootstrapTable('destroy');
     $('#table').bootstrapTable({
@@ -61,9 +80,9 @@ $(document).ready(function(){
 	params["page"] = page;
 	params["command"] = "list";
 	
-	movingPage(params, "/list.goods", callback);
+	movePageWithAjax(params, "/list.goods", callback);
 });
 
 </script>
-
+<%@ include file="/common/bottom.jsp"%>
 

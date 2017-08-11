@@ -7,10 +7,13 @@ public class Page {
 	private int nowPage = 1;		//현재 페이지
 	private int blockCnt = 10;		//한 페이지에 보이는 블락 개수
 	private int totalPageCnt = 0;	//전체 페이지 개수
-	private int totalBlockCnt = 0;	//전체 블락 개수
 	private int startBlock;
 	private int startRow;
 	private int endBlock;
+	
+	public Page(){
+		calPage();
+	}
 	
 	public void setStartBlock(int startBlock) {
 		this.startBlock = startBlock;
@@ -25,11 +28,11 @@ public class Page {
 	}
 
 	private void calPage(){
-		totalPageCnt = (totalCnt/rowCnt)+1;
-		startRow = (nowPage-1) * rowCnt;
-		startBlock =((nowPage-1)/blockCnt)*blockCnt+1;
-		endBlock = startBlock+blockCnt-1;
-		if(endBlock>totalPageCnt){
+		totalPageCnt = (totalCnt  /rowCnt) + 1;
+		startRow = (nowPage - 1) * rowCnt;
+		startBlock =((nowPage - 1) / blockCnt) * blockCnt + 1;
+		endBlock = startBlock + blockCnt - 1;
+		if(endBlock > totalPageCnt){
 			endBlock = totalPageCnt;
 		} 
 	}

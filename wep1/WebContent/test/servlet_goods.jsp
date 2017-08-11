@@ -20,7 +20,7 @@ function callback(result){
 	alert(result.giDesc);
 }
 
-movingPage(testParam, "/test.goods", callback); //서블릿에 썻던 유알엘을 쓴다. *.goods도 된다.
+movePageWithAjax(testParam, "/test.goods", callback); //서블릿에 썻던 유알엘을 쓴다. *.goods도 된다.
 </script>
 </body>
 </html>

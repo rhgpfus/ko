@@ -52,7 +52,7 @@ function callback(results){
 		endBlock = totalPageCnt;
 	}
 	
-	setPagination(startBlock, endBlock, pageInfo.nowPage, totalPageCnt, "page");
+	makePagination(startBlock, endBlock, pageInfo.nowPage, totalPageCnt, "page");
 	var optionStr = "";
 	for(var i=0, max=vendorList.length;i<max;i++){
 		optionStr += "<option value='" + vendorList[i].vinum + "'>"+vendorList[i].viname +"</option>";
@@ -70,7 +70,7 @@ $(document).ready(function(){
 	var params = {};
 	params["nowPage"] = "1";   
 	//params.nowPage는 1이라는 해쉬맵 생성.
-	movingPage(params, "/test/vender_info_nameSelect.jsp", callback);
+	movePageWithAjax(params, "/test/vender_info_nameSelect.jsp", callback);
 });
 
 function setEvent(){
@@ -101,7 +101,7 @@ function setEvent(){
 		var params = {};
 		params["nowPage"] = "" + movePageNum;
 		//ul이 클래스가 pagination이면서 li안에 a인 값.
-		movingPage(params, "/test/vender_info_nameSelect.jsp", callback);
+		movePageWithAjax(params, "/test/vender_info_nameSelect.jsp", callback);
 	})
 }
 
