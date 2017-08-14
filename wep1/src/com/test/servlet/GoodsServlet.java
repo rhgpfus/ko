@@ -20,6 +20,7 @@ import com.test.DTO.GoodsInfo;
 import com.test.DTO.Page;
 import com.test.DTO.Test;
 import com.test.DTO.VenderInfo;
+
 import com.test.service.BoardService;
 import com.test.service.GoodsService;
 
@@ -46,35 +47,67 @@ public class GoodsServlet extends HttpServlet{
 		request.setCharacterEncoding("UTF-8");
 		Gson g = new Gson();
 		
-//		GoodsInfo goods = g.fromJson(request.getReader(), GoodsInfo.class);  //DTO에 있는 클래스를 이용.
-//		VenderInfo vender = g.fromJson(request.getReader(), VenderInfo.class);
-//		System.out.println(goods);
+		GoodsInfo goods = g.fromJson(request.getReader(), GoodsInfo.class);  //DTO에 있는 클래스를 이용.
+		VenderInfo vender = g.fromJson(request.getReader(), VenderInfo.class);
+		Page page = goods.getPage();
 		
-		Test test = g.fromJson(request.getReader(), Test.class);
-		//자기가 가지고 있는 키와 값만 만든다. 에러를 내지 않느다.
-		System.out.println(test);
-		String resultStr = g.toJson(test);
-		doProcess(response, resultStr);
-		
-//		String command = goods.getCommand();
-//		if(command.equals("list")){
-//			int totalCnt = gs.getTotalCount(goods);
-//			Page page = goods.getPage();
-//			page.setTotalCnt(totalCnt);
-//			List<GoodsInfo> goodsList = gs.selectGoods(goods);
-//			List<VenderInfo> venderList = gs.selectVender();
-//			HashMap resultMap = new HashMap();
-//			resultMap.put("viList", venderList);
-//			resultMap.put("page", page);
-//	    	resultMap.put("giList", goodsList);
-//			String jsonStr = g.toJson(resultMap);
-//			System.out.println(jsonStr);
-//			doProcess(response, jsonStr);
-		//}
+		String command = goods.getCommand();
+		if(command.equals("list")){
+			int totalCnt = gs.getTotalCount(goods);
+			page.setTotalCnt(totalCnt);
+			List<GoodsInfo> goodsList = gs.selectGoodsList(goods);
+			List<VenderInfo> venderList = gs.selectVenderList();
+			HashMap resultMap = new HashMap();
+			resultMap.put("viList", venderList);
+			resultMap.put("page", page);
+	    	resultMap.put("giList", goodsList);
+	    	resultMap.put("search", goods);
+			String jsonStr = g.toJson(resultMap);
+			System.out.println(jsonStr);
+			doProcess(response, jsonStr);
+		}else if(command.equals("view")){
+			GoodsInfo resultGoods = gs.selectGoods(goods);
+	    	HashMap resultMap = new HashMap();
+	    	resultMap.put("page", page);
+	    	resultMap.put("goods", resultGoods);
+	    	resultMap.put("url", "/goods/goods_view.jsp");
+	    	String jsonStr = g.toJson(resultMap);
+	    	doProcess(response, jsonStr);
+		}else if(command.equals("delete")){
+	    	int result = gs.deleteGoods(goods);
+	    	HashMap resultMap = new HashMap();
+	    	resultMap.put("page", page);
+	    	resultMap.put("msg", "사원이 삭제 되었습니다.");
+	    	resultMap.put("url", "/goods/goods_list.jsp");
+	    	if(result!=1){
+		    	resultMap.put("msg", "삭제가 실패하였습니다.");
+		    	resultMap.put("url", "");
+	    	}
+	    	String jsonStr = g.toJson(resultMap);
+	    	doProcess(response, jsonStr);
+	    }else if(command.equals("Insert")){
+	    	int result = gs.insertGoods(goods);
+	    	HashMap resultMap = new HashMap();
+	    	resultMap.put("page", page);
+	    	resultMap.put("msg", "사원이 등록 되었습니다.");
+	    	resultMap.put("url", "/goods/goods_list.jsp");
+	    	if(result!=1){
+		    	resultMap.put("msg", "등록이 실패하였습니다.");
+		    	resultMap.put("url", "");
+	    	}
+	    	String jsonStr = g.toJson(resultMap);
+	    	doProcess(response, jsonStr);
+	    }
 //		Set<String> keys = goods.keySet();
 //		for(String key:keys){
 //			System.out.println(key + "=" + hm.get(key));
 //		}
+		//Test test = g.fromJson(request.getReader(), Test.class);
+		//자기가 가지고 있는 키와 값만 만든다. 에러를 내지 않느다.
+		//System.out.println(test);
+		//String resultStr = g.toJson(test);
+		//doProcess(response, resultStr);
+				
 	}
 
 	

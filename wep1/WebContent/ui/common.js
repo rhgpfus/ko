@@ -40,8 +40,8 @@ function movePageWithAjax(pParams, pUrl, pCallBackFunc, pMethod){
 //pagination 이벤트 적용 공통 함수
 //단,ul태그 > il태그 > a태그 형식이여아 하며
 //ul태그의 class명은 반드시 pagination이여야 함.
-function setEvent(pageInfo, pUrl){
-	$("ul[class='pagination']>li:not([class='disabled'])>a").bind("click",function(){
+function setEvent(pageInfo,params, pUrl){
+	$("ul[class='pagination']>li:not([class='disabled'],[class='active'])>a").bind("click",function(){
 		var thisNowPage = pageInfo.nowPage;
 		var movePageNum = new Number(this.innerHTML);
 		if(isNaN(movePageNum)){
