@@ -16,27 +16,26 @@
 			<tr>
 				<td>사원이름</td>
 				<td colspan="2" style="color:#5D5D5D">
-				<input type="text" id="giName"/>
+				<input type="text" id="giName" name="giName"/>
 				</td>
 			</tr>
 			<tr>
 				<td>사원설명</td>
 				<td colspan="2" style="color:#5D5D5D">
-				<input type="text" id="giDesc"/>
+				<input type="text" id="giDesc" name="giDesc"/>
 				</td>
 			</tr>
 			<tr>
 				<td>회사</td>
 				<td colspan="2">
 					<select id="s_vender" style="color:#5D5D5D">
-					
 					</select>
 				</td>
 			</tr>
 			
 			<tr>
 				<td>
-					<button id="btnUpdate" class="btn btn-md-2 btn-primary btn-block" 	type="button">수정하기</button>
+					<button id="btnUpdate" class="btn btn-md-2 btn-primary btn-block" 	type="button">사원정보 수정</button>
 				</td>
 				<td>
 					<button id="btnGoList" class="btn btn-md-2 btn-primary btn-block" 	type="button">취소</button>
@@ -46,56 +45,49 @@
 	</div>
 	<!-- /container -->
 <script>
-var pageInfo = {};
-var nowPage = "<%=request.getParameter("nowPage")%>"
-if(nowPage=="null"){
-	nowPage = "1";
-}
-
+$("#btnUpdate").click(function(){
+	var params = {};
+	params["command"] = "update";
+	params["giDesc"] = $("#giDesc").val();
+	params["giName"] = $("#giName").val();
+	params["viNum"] = $("#s_vender").val();
+	params["giNum"] = "<%=request.getParameter("giNum")%>";
+	movePageWithAjax(params, "/list.goods", callbackInsert);
+});
 $(document).ready(function(){
 	var params = {};
-	var page = {};
-	page["nowPage"] = nowPage;
-	params["page"] = page;
-	params["command"] = "list";
+	params["command"] = "viList";
 	movePageWithAjax(params, "/list.goods", callback);
 });
+
+function callbackInsert(result){
+	alert(result.msg);
+	location.href = result.url;
+}
+
 function callback(results){
 	var venderList = results.viList;
-	var search = results.search;
-	var selStr = "<option value='" + "<%=request.getParameter("viNum") %>" + "'>" + "<%=request.getParameter("viName") %>" + "</option>";
+	var selStr = "<option value=''>회사선택</option>";
 	for(var i=0, max=venderList.length; i<max; i++){
 		var vender = venderList[i];
-		var selectStr = "";
-		if(search.viNum==vender.viNum){
-			selectStr = "selected";
-		}
-		selStr += "<option value='" + vender.viNum + "' "+ selectStr + ">"+vender.viName +"</option>";
+		selStr += "<option value='" + vender.viNum + "' >"+vender.viName +"</option>";
 	}
 	$("#s_vender").html(selStr);
+	
+	var params = {};
+	params["command"] = "view";
+	params["giNum"] = "<%=request.getParameter("giNum")%>";
+	var page = {}
+	page["nowPage"] = "<%=request.getParameter("nowPage")%>";
+	params["page"] = page;
+	movePageWithAjax(params, "/list.goods", callback2);
 }
-$("#btnDelete").click(function(){
-	var isDelete = confirm("해당 상품을 삭제 하시겠습니까?");
-	if(isDelete){
-		var params = {};
-		params["giNum"] = "<%=request.getParameter("giNum")%>";
-		params["command"] = "delete";
-		var page = {};
-		page["nowPage"] = "<%=request.getParameter("nowPage")%>";
-		params["page"] = page;
-		movePageWithAjax(params, "/list.goods", callbackView);
-	}
-});
+function callback2(result){
+	$("#giDesc").val(result.goods.giDesc);
+	$("#giName").val(result.goods.giName);
+	$("#s_vender").val(result.goods.viNum);
+}
 
-function callbackView(result){
-	alert(result.msg);
-	if(result.url!=""){	
-		location.href = result.url + "?nowPage=" + result.page.nowPage;
-	}
-}
-$("#btnUpdate").click(function(){
-	location.href="/goods/goods_update.jsp?nowPage=" + <%=request.getParameter("nowPage")%> + "&giNum=" + <%=request.getParameter("giNum")%>
-});
 $("#btnGoList").click(function(){
 	location.href="/goods/goods_list.jsp?nowPage=" + <%=request.getParameter("nowPage")%>
 });

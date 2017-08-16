@@ -105,7 +105,8 @@ function alertOp(){
 			<ul class="nav navbar-nav">
 				<li id="m1"><a href="/board/board_select.jsp">게시판가기</a></li>
 				<li id="m2"><a href="/board/user_information.jsp">유저정보가기</a></li>
-				<li id="m3"><a href="#contact">권한정보가기</a></li>
+				<li id="m3"><a href="/goods/goods_list.jsp">사원정보게시판</a></li>
+				<li id="m4"><a href="/goods/vender_list.jsp">회사정보게시판</a></li>
 				<li><a href="/user/logout.jsp"><%=loginStr%></a></li>
 			</ul>
 		</div>

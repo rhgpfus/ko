@@ -7,9 +7,9 @@
 	<div class="container" style="text-align: center; padding-top: 20px;padding-bottom: 20px;">
 		<select id="s_vender" style="color:#5D5D5D">
 		</select> 
-		<label>사원이름 : </label> <input type="text" id="giName" /> 
+		<label>사원이름 : </label> <input type="text" id="giName" style="color:#5D5D5D"/> 
 		<input type="button" id="search_Goods" value="검색" style="color:#5D5D5D"/>
-		<input type="button" id="insert_Goods" value="사원등록" style="color:#5D5D5D"/>
+		
 	</div>
     <table id="table" data-height="460" class="table table-bordered table-nover">
     	<thead>
@@ -23,6 +23,8 @@
     	</thead>
     <tbody id="result_tbody"></tbody>
     </table>
+    <input type="button" id="insert_Goods" class="btn btn-primary" value="사원등록"/>
+	
 </div>
 <div class="jb-center" style="text-align : center">
 	<ul class="pagination" id="page">
@@ -54,8 +56,8 @@ $("#search_Goods").click(function(){
 	}
 	params["command"] = "list";
 	var page = {};
-	page["nowPage"] = "1";
-	params["page"] = nowPage;
+	page["nowPage"] = nowPage;
+	params["page"] = page;
 	movePageWithAjax(params, "/list.goods", callback);
 });
 
@@ -71,7 +73,8 @@ function callback(results){
 		if(search.viNum==vender.viNum){
 			selectStr = "selected";
 		}
-		selStr += "<option value='" + vender.viNum + "' "+ selectStr + ">"+vender.viName +"</option>";
+		selStr += "<option value='" + vender.viNum + "' "
+		+ selectStr + ">"+vender.viName +"</option>";
 	}
 	$("#s_vender").html(selStr);
 	var params = {};

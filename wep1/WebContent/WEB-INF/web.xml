@@ -40,6 +40,15 @@
     <url-pattern>*.goods</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>VenderServlet</servlet-name>
+    <servlet-class>com.test.servlet.VenderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VenderServlet</servlet-name>
+    <url-pattern>*.vender</url-pattern>
+  </servlet-mapping>
+  
   <filter>
 		<filter-name>Set Character Encoding</filter-name>
 		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>

@@ -38,7 +38,6 @@ public class GoodsServlet extends HttpServlet{
 		HashMap<String,String> goods = g.fromJson(request.getReader(), HashMap.class);
 		System.out.println(goods);
 		String resultStr = g.toJson(goods);
-		
 		doProcess(response, resultStr);
 		
 	}
@@ -48,7 +47,7 @@ public class GoodsServlet extends HttpServlet{
 		Gson g = new Gson();
 		
 		GoodsInfo goods = g.fromJson(request.getReader(), GoodsInfo.class);  //DTO에 있는 클래스를 이용.
-		VenderInfo vender = g.fromJson(request.getReader(), VenderInfo.class);
+		//request.getReader()는 한번만 읽는다!!!!!!!!!!!!
 		Page page = goods.getPage();
 		
 		String command = goods.getCommand();
@@ -63,7 +62,6 @@ public class GoodsServlet extends HttpServlet{
 	    	resultMap.put("giList", goodsList);
 	    	resultMap.put("search", goods);
 			String jsonStr = g.toJson(resultMap);
-			System.out.println(jsonStr);
 			doProcess(response, jsonStr);
 		}else if(command.equals("view")){
 			GoodsInfo resultGoods = gs.selectGoods(goods);
@@ -97,6 +95,24 @@ public class GoodsServlet extends HttpServlet{
 	    	}
 	    	String jsonStr = g.toJson(resultMap);
 	    	doProcess(response, jsonStr);
+	    }else if(command.equals("viList")){
+	    	List<VenderInfo> venderList = gs.selectVenderList();
+	    	HashMap resultMap = new HashMap();
+	    	resultMap.put("viList", venderList);
+	    	String jsonStr = g.toJson(resultMap);
+	    	doProcess(response, jsonStr);
+	    }else if(command.equals("update")){
+	    	int result = gs.updateGoods(goods);
+	    	HashMap resultMap = new HashMap();
+	    	resultMap.put("msg", "수정이 완료 되었습니다.");
+	    	resultMap.put("url", "/goods/goods_list.jsp");
+	    	if(result!=1){
+		    	resultMap.put("msg", "수정이 실패하였습니다.");
+		    	resultMap.put("url", "");
+	    	}
+	    	String jsonStr = g.toJson(resultMap);
+	    	doProcess(response, jsonStr);
+	    	
 	    }
 //		Set<String> keys = goods.keySet();
 //		for(String key:keys){

@@ -9,7 +9,21 @@ public class VenderInfo {
 	private String viPhone;
 	private String viDate;
 	private String viTime;
+	private Page page;
+	private String command;
 	
+	public String getCommand() {
+		return command;
+	}
+	public void setCommand(String command) {
+		this.command = command;
+	}
+	public Page getPage() {
+		return page;
+	}
+	public void setPage(Page page) {
+		this.page = page;
+	}
 	public int getViNum() {
 		return viNum;
 	}
@@ -55,8 +69,10 @@ public class VenderInfo {
 	@Override
 	public String toString() {
 		return "VenderInfo [viNum=" + viNum + ", viName=" + viName + ", viDesc=" + viDesc + ", viAddress=" + viAddress
-				+ ", viPhone=" + viPhone + ", viDate=" + viDate + ", viTime=" + viTime + "]";
+				+ ", viPhone=" + viPhone + ", viDate=" + viDate + ", viTime=" + viTime + ", page=" + page + ", command="
+				+ command + "]";
 	}
+	
 	
 	
 }

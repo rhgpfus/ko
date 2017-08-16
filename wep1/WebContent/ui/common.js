@@ -19,7 +19,7 @@ function movePageWithAjax(pParams, pUrl, pCallBackFunc, pMethod){
 				//만족하면 pMethod 이고 만족하지 않으면 "POST"방식으로 된다.
 	    ,   url      : pUrl
 	    ,   dataType : "json" 
-	    //받는 데이터 타입.
+	    //내가 받을 데이터 타입.
 	    ,   beforeSend: function(xhr) {
 	        xhr.setRequestHeader("Accept", "application/json");
 	        xhr.setRequestHeader("Content-Type", "application/json");
@@ -41,7 +41,7 @@ function movePageWithAjax(pParams, pUrl, pCallBackFunc, pMethod){
 //단,ul태그 > il태그 > a태그 형식이여아 하며
 //ul태그의 class명은 반드시 pagination이여야 함.
 function setEvent(pageInfo,params, pUrl){
-	$("ul[class='pagination']>li:not([class='disabled'],[class='active'])>a").bind("click",function(){
+	$("ul[class='pagination']>li:not([class='disabled'],[class='active'])>a").click(function(){
 		var thisNowPage = pageInfo.nowPage;
 		var movePageNum = new Number(this.innerHTML);
 		if(isNaN(movePageNum)){
@@ -68,7 +68,6 @@ function setEvent(pageInfo,params, pUrl){
 		var page = {};
 		page["nowPage"] = "" + movePageNum;
 		//ul이 클래스가 pagination이면서 li안에 a인 값.
-		var params = {};
 		params["page"] = page;
 		params["command"] = "list";
 		movePageWithAjax(params, pUrl, callback);
