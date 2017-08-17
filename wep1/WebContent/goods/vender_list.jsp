@@ -75,11 +75,11 @@ function callback(results){
 }
 
 function callbackView(result){
-	var url = result.url + "?nowPage=" + result.page.nowPage + "&giNum=" + result.goods.giNum;
-	url += "&giName=" + result.goods.giName;
-	url += "&giDesc=" + result.goods.giDesc;
-	url += "&viNum=" + result.goods.viNum;
-	url += "&viName=" + result.goods.viName;
+	var url = result.url + "?nowPage=" + result.page.nowPage + "&viNum=" + result.vender.viNum;
+	url += "&viName=" + result.vender.viName;
+	url += "&viDesc=" + result.vender.viDesc;
+	url += "&viAddress=" + result.vender.viAddress;
+	url += "&viPhone=" + result.vender.viPhone;
 	location.href = url;
 }
 

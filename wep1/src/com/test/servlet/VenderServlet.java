@@ -78,7 +78,31 @@ public class VenderServlet extends HttpServlet{
 	    	resultMap.put("url", "/goods/vender_view.jsp");
 	    	String jsonStr = g.toJson(resultMap);
 	    	doProcess(response, jsonStr);
-		}
+		}else if(command.equals("venderDelete")){
+	    	int result = vs.deleteVender(vender);
+	    	HashMap resultMap = new HashMap();
+	    	resultMap.put("page", page);
+	    	resultMap.put("msg", "회가사 삭제 되었습니다.");
+	    	resultMap.put("url", "/goods/vender_list.jsp");
+	    	if(result!=1){
+		    	resultMap.put("msg", "삭제가 실패하였습니다.");
+		    	resultMap.put("url", "");
+	    	}
+	    	String jsonStr = g.toJson(resultMap);
+	    	doProcess(response, jsonStr);
+	    }else if(command.equals("venderUpdate")){
+	    	int result = vs.updateVender(vender);
+	    	HashMap resultMap = new HashMap();
+	    	resultMap.put("msg", "수정이 완료 되었습니다.");
+	    	resultMap.put("url", "/goods/vender_list.jsp");
+	    	if(result!=1){
+		    	resultMap.put("msg", "수정이 실패하였습니다.");
+		    	resultMap.put("url", "");
+	    	}
+	    	String jsonStr = g.toJson(resultMap);
+	    	doProcess(response, jsonStr);
+	    	
+	    }
 //		Set<String> keys = goods.keySet();
 //		for(String key:keys){
 //			System.out.println(key + "=" + hm.get(key));

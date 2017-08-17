@@ -21,7 +21,7 @@ public class VenderService {
 		Connection con = null;
 		PreparedStatement ps = null;
 		try {
-			String sql = "select viname,videsc,viaddress,viphone from vender_info"
+			String sql = "select vinum,viname,videsc,viaddress,viphone from vender_info"
 					+ " where vinum=?";
 			con = DBConn.getCon();
 			ps = con.prepareStatement(sql);
@@ -29,6 +29,7 @@ public class VenderService {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				VenderInfo vi2 = new VenderInfo();
+				vi2.setViNum(rs.getInt("vinum"));
 				vi2.setViName(rs.getString("viname"));
 				vi2.setViDesc(rs.getString("videsc"));
 				vi2.setViAddress(rs.getString("viaddress"));
@@ -152,6 +153,65 @@ public class VenderService {
 			ps.setString(2, vi.getViDesc());
 			ps.setString(3, vi.getViAddress());
 			ps.setString(4, vi.getViPhone());
+			int result = ps.executeUpdate();
+			con.commit();
+			return result;
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				ps.close();
+				DBConn.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
+	public int deleteVender(VenderInfo vi){
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			String sql = "delete from vender_info where vinum=?";
+			con = DBConn.getCon(); 
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, vi.getViNum());
+			int result = ps.executeUpdate();
+			con.commit();
+			return result;
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				ps.close();
+				DBConn.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
+	public int updateVender(VenderInfo vi){
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			String sql = "update vender_info";
+			sql += " set viname=?,";
+			sql += " videsc=?,";
+			sql += " viaddress=?,";
+			sql += " viphone=?";
+			sql += " where vinum=?";
+			con = DBConn.getCon(); 
+			ps = con.prepareStatement(sql);
+			ps.setString(1, vi.getViName());
+			ps.setString(2, vi.getViDesc());
+			ps.setString(3, vi.getViAddress());
+			ps.setString(4, vi.getViPhone());
+			ps.setInt(5, vi.getViNum());
 			int result = ps.executeUpdate();
 			con.commit();
 			return result;
