@@ -82,6 +82,7 @@ function callback(results){
 		params["viNum"] = search.viNum;
 	}
 	if(search.giName){
+		//null이나 언디파인드 이면 실행을 안한다.
 		params["giName"] = search.giName;
 	}
 	makePagination(pageInfo, "page");

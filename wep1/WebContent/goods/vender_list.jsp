@@ -6,9 +6,12 @@
 <div class="container">
 	<div class="container" style="text-align: center; padding-top: 20px;padding-bottom: 20px;">
 		<select id="s_vender" style="color:#5D5D5D">
+			<option value="">검색조건</option>
+			<option value="viName">회사이름</option>
+			<option value="viAddress">회사주소</option>
 		</select> 
-		<label>검색 : </label> <input type="text" id="giName" style="color:#5D5D5D"/> 
-		<input type="button" id="search_Goods" value="검색" style="color:#5D5D5D"/>
+		<label>검색 : </label> <input type="text" id="vi_Search" style="color:#5D5D5D"/> 
+		<input type="button" id="search_vender" value="검색" style="color:#5D5D5D"/>
 		
 	</div>
     <table id="table" data-height="460" class="table table-bordered table-nover">
@@ -40,6 +43,31 @@ if(nowPage=="null"){
 $("#insert_vender").click(function(){
 	location.href = "/goods/vender_insert.jsp";
 })
+$("#search_vender").click(function(){
+	var viSearchBox = $("#vi_Search").val().trim();
+	var viSelected = $("#s_vender").val().trim();
+	if(viSearchBox=="" && viSelected==""){
+		alert("회사 선택이나 검색란을 입력해주세요.");
+		return;
+	}
+	var params = {};
+	if(viSelected!=""){
+		if(viSelected=="viName"){
+			params["viName"] = viSelected;
+		}else if(viSelected=="viAddress"){
+			params["viAddress"] = viSelected;
+		}
+	}
+	if(viSearchBox!=""){
+		params["giName"] = viSearchBox;
+	}
+	
+	params["command"] = "list";
+	var page = {};
+	page["nowPage"] = nowPage;
+	params["page"] = page;
+	movePageWithAjax(params, "/list.goods", callback);
+});
 
 function callback(results){
 	var venderList = results.viList;
