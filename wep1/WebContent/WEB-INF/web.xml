@@ -49,7 +49,17 @@
     <url-pattern>*.vender</url-pattern>
   </servlet-mapping>
   
-  <filter>
+  <servlet>
+    <servlet-name>FormTestServlet</servlet-name>
+    <servlet-class>com.test.servlet_test.FormServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FormTestServlet</servlet-name>
+    <url-pattern>*.formtest</url-pattern>
+  </servlet-mapping>
+  
+ <!-- 
+ 	<filter>
 		<filter-name>Set Character Encoding</filter-name>
 		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
 		<init-param>
@@ -62,4 +72,15 @@
 		<filter-name>Set Character Encoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	처음썻던 필터.
+-->	
+	<filter>
+		<filter-name>FilterTest</filter-name>
+		<filter-class>com.test.filter.CustomFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>FilterTest</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 </web-app>
