@@ -16,14 +16,15 @@ import com.test.DTO.GoodsInfo;
 import com.test.DTO.Page;
 import com.test.DTO.VenderInfo;
 import com.test.service.VenderService;
+import com.test.service.Implement.VenderServiceImpl;
 
 
 public class VenderServlet extends HttpServlet{
 	
 	
 	private static final long serialVersionUID = 1L;
-	private VenderService vs = new VenderService();
-	
+	private VenderServiceImpl vs2 = new VenderServiceImpl();
+	private VenderService vs;
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{		
 		request.setCharacterEncoding("UTF-8");
 		Gson g = new Gson();
