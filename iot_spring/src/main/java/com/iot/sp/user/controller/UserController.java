@@ -16,7 +16,6 @@ import com.iot.sp.user.service.UserService;
 
 @Controller
 @RequestMapping("/user")
-
 public class UserController {
 
 	@Autowired
