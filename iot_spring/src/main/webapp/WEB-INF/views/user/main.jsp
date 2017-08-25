@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%=session.getAttribute("ID")%>님 어서오세요!
+<%=session.getAttribute("ID")%>님 어서오세요!<br>
+${userid}님 어서옵쇼.
 </body>
 </html>
