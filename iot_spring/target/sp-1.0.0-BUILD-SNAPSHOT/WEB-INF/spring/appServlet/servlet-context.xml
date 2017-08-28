@@ -20,9 +20,10 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	<!-- Controller을 설명할 때, 서블릿 설정이 자동으로 prefix와 suffix를 붙인다고 해줬는데, 그 역할을 담당한다. 즉, 우리가 일일이 전체경로와 .jsp를 붙이지 않아도 되도록 도와준다. -->
 	
 	<context:component-scan base-package="com.iot.sp" />
-	
+	<!-- 이 부분은 스프링에서 사용하는 bean을 일일이 xml에 선언하지 않고도 필요한 것을 어노테이션(Annotation)을 자동으로 인식하게 하는 역할을 한다. 이는 나중에 다시 설명하도록 한다. -->
 	
 	
 </beans:beans>

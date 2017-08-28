@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/ui/signin.css"/>
 <body>
 	<div class="container">
-		<form class="form-signin" action="${pageContext.request.contextPath}/user/login">
+		<form class="form-signin">
 			<h2 class="form-signin-heading">Please login</h2>
 			<label for="inputEmail" class="sr-only">Id</label> 
 			<input type="text" id="id" name="id" class="form-control" placeholder="Id" required autofocus>
@@ -29,7 +29,7 @@
 		param = JSON.stringify(param);
 		$.ajax({ 
 	        type     : "POST"
-	    ,   url      : "${pageContext.request.contextPath}/user/login"
+	    ,   url      : "<%=rootPath%>/user/login"
 	    ,   dataType : "json" 
 	    ,   beforeSend: function(xhr) {
 	        xhr.setRequestHeader("Accept", "application/json");
@@ -38,8 +38,9 @@
 	    ,   data     : param
 	    ,   success : function(result){
 	    	alert(result.msg);
-	    	if(result.login =="True"){
-	    		location.href = "${pageContext.request.contextPath}/user/main";
+	    	
+	    	if(result.data =="True"){
+	    		location.href = "<%=rootPath%>" + result.url;
 	    	}else{
 	    		$("#id").val("");
 	    		$("#pwd").val("");

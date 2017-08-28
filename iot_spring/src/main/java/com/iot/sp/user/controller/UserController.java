@@ -1,5 +1,7 @@
 package com.iot.sp.user.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iot.sp.user.dto.UserInfo;
 import com.iot.sp.user.service.UserService;
+
 
 @Controller
 @RequestMapping("/user")
@@ -48,5 +51,10 @@ public class UserController {
 		return model;
 	}
 	
-	
+	@RequestMapping(value="list", method=RequestMethod.POST)
+	public @ResponseBody ModelMap getUserList(HttpServletRequest request, @RequestBody Map hm, ModelMap model, HttpSession session){
+//		List<UserInfo> userList = us.getUserList(reUser);
+//		model.put("userList", userList);
+		return model;
+	}
 }

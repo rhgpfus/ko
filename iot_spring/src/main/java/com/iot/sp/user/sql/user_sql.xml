@@ -28,7 +28,7 @@
 	  from user_info
 	  where 1=1
 	  <if test="userName!=null">
-	  and username like #{userName}
+	  and username like concat(%,#{userName},%)
 	  </if>
 	</select>	
 
@@ -38,6 +38,8 @@
 	  	userpwd 
 	  from user_info
 	  where userid = #{userId}
+	  <!-- UserInfo에 있는  userId를 바인딩한다.
+	  parameterType="user" 이것이 UserInfo를 바라본다. -->
 	</select>
 </mapper>
 

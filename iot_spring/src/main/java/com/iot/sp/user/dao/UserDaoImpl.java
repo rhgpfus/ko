@@ -12,6 +12,7 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
 	@Override
 	public UserInfo selectUser(UserInfo ui){
 		return this.getSqlSession().selectOne("userinfo.SELECT_USER", ui);
+		//파라메터로 받은 ui는 클래스가 UserInfo 임으로 user_sql.xml에서 parameterType="user" 받는타입을 user로 쓰는것이다.
 	}
 
 	@Override
