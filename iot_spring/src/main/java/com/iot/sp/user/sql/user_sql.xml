@@ -18,6 +18,7 @@
 	    userid,
 	  	userpwd,
 	  	username,
+	  	age,
 	  	address,
 	  	hp1,
 	  	hp2,
@@ -28,7 +29,7 @@
 	  from user_info
 	  where 1=1
 	  <if test="userName!=null">
-	  and username like concat(%,#{userName},%)
+	  and username like concat('%',#{userName},'%')
 	  </if>
 	</select>	
 

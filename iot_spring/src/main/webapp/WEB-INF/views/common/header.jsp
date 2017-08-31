@@ -10,6 +10,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<c:set var="version" value="1.3.2"></c:set>
+<c:set var="rootPath" value="${pageContext.request.contextPath}"></c:set>
+<!-- JSTL이다. 6번라인을 보면 이름을 c로 시작하게 만들엇다. -->
 </head>
 <%
 String version = "1.3.2";
@@ -21,22 +24,22 @@ if(login){
 	loginStr = "로그아웃";
 }
 %>
-<script src="<c:url value="/resources/js/jquery-3.2.1.js?version=<%=version%>"/>"></script>
-<script src="<c:url value="/resources/js/jquery-ui-1.9.2.custom.js?version=<%=version%>"/>"></script>
-<script src="<c:url value="/resources/js/jquery.fileupload.js?version=<%=version%>"/>"></script>
-<script src="<c:url value="/resources/js/jquery.iframe-transport.js?version=<%=version%>"/>"></script>
+<script src="<c:url value="/resources/js/jquery-3.2.1.js?version=${version}"/>"></script>
+<script src="<c:url value="/resources/js/jquery-ui-1.9.2.custom.js?version=${version}"/>"></script>
+<script src="<c:url value="/resources/js/jquery.fileupload.js?version=${version}"/>"></script>
+<script src="<c:url value="/resources/js/jquery.iframe-transport.js?version=${version}"/>"></script>
 
 
-<script src="<c:url value="/resources/ui/common.js?version=<%=version%>"/>"></script>
-<script src="<c:url value="/resources/ui/btsp3.7.7/js/bootstrap.min.js?version=<%=version%>"/>"></script>
-<script src="<c:url value="/resources/ui/btsp3.7.7/js/bootstrap-table.js?version=<%=version%>"/>"></script>
-<script src="<c:url value="/resources/ui/btsp3.7.7/js/bootstrap-table.js?version=<%=version%>"/>"></script>
+<script src="<c:url value="/resources/ui/common.js?version=${version}"/>"></script>
+<script src="<c:url value="/resources/ui/btsp3.7.7/js/bootstrap.min.js?version=${version}"/>"></script>
+<script src="<c:url value="/resources/ui/btsp3.7.7/js/bootstrap-table.js?version=${version}"/>"></script>
+<script src="<c:url value="/resources/ui/btsp3.7.7/js/bootstrap-table.js?version=${version}"/>"></script>
 
-<link rel="stylesheet" href="<c:url value="/resources/ui/btsp3.7.7/css/bootstrap-theme.min.css?version=<%=version%>"/>"/>
-<link rel="stylesheet" href="<c:url value="/resources/ui/btsp3.7.7/css/bootstrap.min.css?version=<%=version%>"/>"/>
-<link rel="stylesheet" href="<c:url value="/resources/ui/btsp3.7.7/css/bootstrap-table.css?version=<%=version%>"/>"/>
-<link rel="stylesheet" href="<c:url value="/resources/ui/common.css?version=<%=version%>"/>"/>
-<link rel="stylesheet" href="<c:url value="/resources/ui/cover.css?version=<%=version%>"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/ui/btsp3.7.7/css/bootstrap-theme.min.css?version=${version}"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/ui/btsp3.7.7/css/bootstrap.min.css?version=${version}"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/ui/btsp3.7.7/css/bootstrap-table.css?version=${version}"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/ui/common.css?version=${version}"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/ui/cover.css?version=${version}"/>"/>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
@@ -49,7 +52,7 @@ if(login){
 				<span class="icon-bar"></span> 
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<%=rootPath%>/user/main">HOME</a>
+			<a class="navbar-brand" href="${rootPath}/user/main">HOME</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">

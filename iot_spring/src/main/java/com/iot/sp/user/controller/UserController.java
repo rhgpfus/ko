@@ -1,5 +1,6 @@
 package com.iot.sp.user.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +37,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public @ResponseBody ModelMap login(HttpServletRequest request, @RequestBody UserInfo reUser, ModelMap model, HttpSession session){
-		UserInfo ui = us.getUser(reUser);
+	public @ResponseBody ModelMap login(HttpServletRequest request, @RequestBody UserInfo user, ModelMap model, HttpSession session){
+		UserInfo ui = us.getUser(user);
 		if(ui==null){
 			model.put("data", "False");
 			model.put("url", "/user/login");
@@ -51,10 +52,15 @@ public class UserController {
 		return model;
 	}
 	
-	@RequestMapping(value="list", method=RequestMethod.POST)
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	public String goList(HttpServletRequest request){
+		return "/user/list";
+	}
+	
+	@RequestMapping(value="/list", method=RequestMethod.POST)
 	public @ResponseBody ModelMap getUserList(HttpServletRequest request, @RequestBody Map hm, ModelMap model, HttpSession session){
-//		List<UserInfo> userList = us.getUserList(reUser);
-//		model.put("userList", userList);
+		List<UserInfo> userList = us.getUserList(hm);
+		model.put("userList", userList);
 		return model;
 	}
 }

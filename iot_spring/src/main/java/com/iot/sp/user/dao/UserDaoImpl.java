@@ -1,5 +1,8 @@
 package com.iot.sp.user.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,11 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
 	public UserInfo deleteUser(UserInfo ui) {
 		
 		return null;
+	}
+
+	@Override
+	public List<UserInfo> selectUserList(Map hm) {
+		return this.getSqlSession().selectList("userinfo.SELECT_USER_LIST", hm);
 	}
 	
 }
