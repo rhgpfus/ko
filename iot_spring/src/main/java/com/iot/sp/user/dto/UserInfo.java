@@ -17,9 +17,13 @@ public class UserInfo {
 	private int departnum;
 	private String userrolelevel;
 	private String gender;
+	private boolean saveId;
 	
 	public int getUserNum() {
 		return userNum;
+	}
+	public void setSaveId(boolean saveId) {
+		this.saveId = saveId;
 	}
 	public void setUserNum(int userNum) {
 		this.userNum = userNum;
@@ -96,6 +100,9 @@ public class UserInfo {
 		return "UserInfo [userNum=" + userNum + ", userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName
 				+ ", age=" + age + ", address=" + address + ", hp1=" + hp1 + ", hp2=" + hp2 + ", hp3=" + hp3
 				+ ", departnum=" + departnum + ", userrolelevel=" + userrolelevel + ", gender=" + gender + "]";
+	}
+	public boolean isSaveId() {
+		return saveId;
 	}
 	
 	

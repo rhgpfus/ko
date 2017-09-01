@@ -22,7 +22,7 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/test1", method = RequestMethod.GET)
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		//{}안에 locale가 들어간다.
@@ -39,7 +39,7 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@RequestMapping(value = "/test1004", method = RequestMethod.GET)
 	public String test(Locale locale, Model model) {
 		String result = "여기는 테스트 jsp입니다.";
 		model.addAttribute("test", result);

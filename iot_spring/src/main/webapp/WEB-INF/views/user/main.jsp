@@ -29,8 +29,12 @@
 </body>
 <script>
 $(document).ready(function(){
-	$("a[id='list']").click(function(){
-		location.href = url;
+	$("input[type='button']").click(function(){
+		var url = this.getAttribute("data-url");
+		if(url){
+			location.href = url;
+		}
 	})
+	
 })
 </script>
